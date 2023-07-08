@@ -1,5 +1,5 @@
 'use client'
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   Box,
   Flex,
@@ -41,7 +41,9 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 );
 
 export default function Home() {
-  let keychainEncode = useCallback(async (username: string, data: string) => {
+  let [username, setUsername] = useState("")
+
+  let keychainLogin = useCallback(async (username: string, data: string) => {
     console.log(window)
     let keychain = new KeychainSDK(window);
 
@@ -56,6 +58,11 @@ export default function Home() {
     const login = await keychain
       .login(
         formParamsAsObject.data as Login);
+
+    if (login.success == true) {
+      // sig = login.result, pubkey = login.publickey
+      setUsername(login.data.username)
+    }
     console.log(login)
   }, [])
 
@@ -74,7 +81,7 @@ export default function Home() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
+            <Box>Hivesurvey</Box>
             <HStack
               as={'nav'}
               spacing={4}
@@ -85,35 +92,37 @@ export default function Home() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Button
-              variant={'solid'}
-              colorScheme={'teal'}
-              size={'sm'}
-              mr={4}
-              leftIcon={<AddIcon />}>
-              Action
-            </Button>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
-              </MenuList>
-            </Menu>
+            {
+              username == "" ? <Button
+                variant={'solid'}
+                colorScheme={'teal'}
+                size={'sm'}
+                mr={4}
+                leftIcon={<AddIcon />}
+                onClick={async () => { keychainLogin("k0mm4nd", "hivesurvey") }}
+              >
+                Login
+              </Button> :
+                <Menu>
+                  <MenuButton
+                    as={Button}
+                    rounded={'full'}
+                    variant={'link'}
+                    cursor={'pointer'}
+                    minW={0}>
+                    <Avatar
+                      size={'sm'}
+                      name={"k0mm4nd"}
+                    />
+                  </MenuButton>
+                  <MenuList>
+                    <MenuItem>Link 1</MenuItem>
+                    <MenuItem>Link 2</MenuItem>
+                    <MenuDivider />
+                    <MenuItem>Link 3</MenuItem>
+                  </MenuList>
+                </Menu>
+            }
           </Flex>
         </Flex>
 
