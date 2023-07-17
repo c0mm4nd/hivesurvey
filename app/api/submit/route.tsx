@@ -11,7 +11,7 @@ async function sendReward(to: string) {
         from: 'hivesurvey',
         to: to,
         amount: '0.001 HIVE',
-        memo: "test"
+        memo: "thanks for completing our survey"
       }
     ]
   ]
