@@ -278,7 +278,7 @@ const Form = () => {
                         setAlert({ title: "Error", body: `detail: ${resp.error}` })
                         onAlertOpen()
                       } else {
-                        setAlert({ title: "Reward Claimed", body: `txid: ${resp.txId}` })
+                        setAlert({ title: "Reward Claimed", body: `txid: ${resp.result.txId}` })
                         onAlertOpen()
                       }
                     }
