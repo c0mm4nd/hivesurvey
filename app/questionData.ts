@@ -111,8 +111,8 @@ export const initialQuestions: Question[] = [
     type: QuestionType.Single,
     textDesc: "Pick one",
     options: {
-      "A.	Once a month ": { value: 1, next: 10 }, "B.	Once a week ": { value: 2, next: 10 }, "C.	Over three times a week ": { value: 3, next: 10 },
-      "D.	Over ten times a week": { value: 4, next: 10 }
+      "A.	Once a month ": { value: 1, next: 11 }, "B.	Once a week ": { value: 2, next: 11 }, "C.	Over three times a week ": { value: 3, next: 11 },
+      "D.	Over ten times a week": { value: 4, next: 11 }
     }
   },
   {
