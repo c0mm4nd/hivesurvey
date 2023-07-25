@@ -6,7 +6,8 @@ import { KeychainSDK, KeychainKeyTypes, Login } from "keychain-sdk";
 import { useContext, useCallback, useState, ReactNode } from "react";
 import { User, UserContext } from "./providers";
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+// const Links = ['Dashboard', 'Projects', 'Team'];
+const Links = [] as string[]
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
