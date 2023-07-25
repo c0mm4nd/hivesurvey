@@ -5,6 +5,7 @@ export enum QuestionType {
   Single = "single",
   Multiple = "multi",
   Slider = "slider",
+  Ranger = "rander",
   Textarea = "textarea",
   Ending = "ending"
 }
