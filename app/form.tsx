@@ -152,13 +152,13 @@ const Form = () => {
                 w="7rem"
                 hidden={step == questions.length - 1}
                 isDisabled={
-                  next == 0 ||
+                  next == 0 || next == 255 || next == -1 ||
                   false // user == null
                 }
                 onClick={() => {
                   setStep(next);
 
-                  if (next == questions.length - 1) {
+                  if (next == -1 || next == 255) {
                     setProgress(100);
                   } else {
                     setProgress((next + 1) * 100 / questions.length);
@@ -171,7 +171,7 @@ const Form = () => {
                 Next
               </Button>
             </Flex>
-            {step === questions.length - 1 ? (
+            { (next == 255 || next == -1) ? (
               <Button
                 // type='submit'
                 w="7rem"

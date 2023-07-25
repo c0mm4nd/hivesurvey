@@ -307,14 +307,14 @@ export const initialQuestions: Question[] = [
     next: 31
   },
   {
-    id: 31, // no 
-    stem: "Thank you for your participation! But sorry there is no coin reward for you",
+    id: 31,
+    stem: "Thank you for your participation! There will be a coin reward for you after your submit",
     type: QuestionType.Ending,
     reward: true
   },
   {
     id: 32,
-    stem: "Thank you for your participation! There will be a coin reward for you after your submit",
+    stem: "Thank you for your participation! But sorry there is no coin reward for you",
     type: QuestionType.Ending,
     reward: false
   },

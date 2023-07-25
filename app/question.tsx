@@ -122,6 +122,11 @@ export default function QuestionCard(props: QuestionListProps) {
 
         return subQuestionElements
       case QuestionType.Ending:
+        if (question.reward == true) {
+          setNext(255)
+        } else {
+          setNext(-1)
+        }
         return question.textDesc
       default:
         return `unknown type ${question.type}`
