@@ -310,13 +310,22 @@ export const initialQuestions: Question[] = [
   {
     id: 31,
     stem: "Thank you for your participation! There will be a coin reward for you after your submit",
-    type: QuestionType.Ending,
-    reward: true
+    type: QuestionType.Single,
+    options: {
+      "HIVE": {value: 0, next: 33},
+      "Steamit": {value: 1, next: 33}
+    }
   },
   {
     id: 32,
     stem: "Thank you for your participation! But sorry there is no coin reward for you",
     type: QuestionType.Ending,
     reward: false
+  },
+  {
+    id: 33,
+    stem: "Thank you for your participation! There will be a coin reward for you after your submit",
+    type: QuestionType.Ending,
+    reward: true
   },
 ]

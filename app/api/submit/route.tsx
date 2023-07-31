@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Transaction, PrivateKey, PublicKey, call, Signature } from 'hive-tx'
+import hiveTx, { Transaction, PrivateKey, PublicKey, call, Signature } from 'hive-tx'
 import { kv } from "@vercel/kv";
 import { sha256 } from "@noble/hashes/sha256"
 
-async function sendReward(to: string) {
+async function sendHIVEReward(to: string) {
+  hiveTx.config.node = "https://api.hive.blog"
+  hiveTx.config.chain_id = "beeab0de00000000000000000000000000000000000000000000000000000000"
+
   const operations = [
     [
       'transfer',
@@ -11,6 +14,40 @@ async function sendReward(to: string) {
         from: 'hivesurvey',
         to: to,
         amount: '0.001 HIVE',
+        memo: "thanks for completing our survey"
+      }
+    ]
+  ]
+
+  const tx = new Transaction()
+  await tx.create(operations)
+
+  const privateKey = PrivateKey.from(process.env.HIVESURVEY_KEY || "")
+
+  tx.sign(privateKey)
+
+  const res = await tx.broadcast()
+  if ('error' in res) {
+    throw res['error']
+  }
+
+  const digest = tx.digest()
+
+  return digest
+}
+
+async function sendSteemitReward(to: string) {
+  // https://peakd.com/hf24/@droida/what-changed-in-the-transfer-rpc-request
+  hiveTx.config.node = 'https://api.steemit.com/'
+  hiveTx.config.chain_id = '0000000000000000000000000000000000000000000000000000000000000000'
+
+  const operations = [
+    [
+      'transfer',
+      {
+        from: 'hivesurvey',
+        to: to,
+        amount: '0.001 STEEM',
         memo: "thanks for completing our survey"
       }
     ]
@@ -139,11 +176,20 @@ export async function POST(request: NextRequest) {
 
   const exists = await kv.exists(name)
   if (exists) {
-    return NextResponse.json({ error: `account ${name} has already submited` })
+    return NextResponse.json({ error: `account ${name} has already submited!` })
   }
 
   await kv.set(name, data.form)
-  const res = await sendReward(name)
 
-  return NextResponse.json({ result: { txid: res.txId } });
+  if (data.form[31] == "HIVE") {
+    const res = await sendHIVEReward(name)
+    return NextResponse.json({ result: { txid: res.txId } });
+  }
+  if (data.form[31] == "Steemit") {
+    const res = await sendSteemitReward(name)
+    return NextResponse.json({ result: { txid: res.txId } });
+  }
+
+  // const res = await sendHIVEReward(name)
+  return NextResponse.json({ result: { txid: null } });
 }

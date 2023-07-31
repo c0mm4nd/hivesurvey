@@ -171,7 +171,7 @@ const Form = () => {
                 Next
               </Button>
             </Flex>
-            { (next == 255 || next == -1) ? (
+            {(next == 255 || next == -1) ? (
               <Button
                 // type='submit'
                 w="7rem"
@@ -196,7 +196,12 @@ const Form = () => {
                       setAlert({ title: "Error", body: `detail: ${resp.error}` })
                       onAlertOpen()
                     } else {
-                      setAlert({ title: "Reward Claimed", body: `txid: ${resp.result.txId}` })
+                      if (resp.result.txId) {
+                        setAlert({ title: "Thanks for your submission", body: `Your reward has beed claimed by txid: ${resp.result.txId}` })
+                      } else {
+                        setAlert({ title: "Thanks for your submission", body: `` })
+                      }
+
                       onAlertOpen()
                     }
                   }
