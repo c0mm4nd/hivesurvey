@@ -45,7 +45,7 @@ async function sendSteemitReward(to: string) {
     [
       'transfer',
       {
-        from: 'hivesurvey',
+        from: 'steemsurveyhku',
         to: to,
         amount: '0.001 STEEM',
         memo: "thanks for completing our survey"
@@ -56,7 +56,7 @@ async function sendSteemitReward(to: string) {
   const tx = new Transaction()
   await tx.create(operations)
 
-  const privateKey = PrivateKey.from(process.env.HIVESURVEY_KEY || "")
+  const privateKey = PrivateKey.from(process.env.STEEMSURVEY_KEY || "")
 
   tx.sign(privateKey)
 
