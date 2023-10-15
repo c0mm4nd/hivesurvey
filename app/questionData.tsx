@@ -103,11 +103,11 @@ export const survey: Survey = {
       text: "To what extent do you agree with the opinion that Tron's takeover on February 14, 2020, violated certain implicit community rules or standards in Steem?",
       range: [1, 5],
       answers: [
-        { text: "1 = Fully agree", goto: 6 },
-        { text: "2 = Agree", goto: 6 },
+        { text: "1 = Fully disagree", goto: 6 },
+        { text: "2 = Disagree", goto: 6 },
         { text: "3 = Neutral", goto: 6 },
-        { text: "4 = Disagree", goto: 6 },
-        { text: "5 = Fully disagree", goto: 6 },
+        { text: "4 = Agree", goto: 6 },
+        { text: "5 = Fully agree", goto: 6 },
       ],
     },
     {
@@ -153,21 +153,21 @@ export const survey: Survey = {
         '(1) "Steem members should engage in cooperative behaviors."': [
           {
             type: "number",
-            text: "(1) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement before Tron's takeover:",
+            text: "(a) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **before Tron's takeover**:",
           },
           {
             type: "number",
-            text: "(1) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement after Tron's takeover:",
+            text: "(b) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **after Tron's takeover**:",
           },
         ],
-        '(2) "Steem members should NOT engage in opportunistic behaviors."': [
+        '(2) "Steem members should **NOT** engage in opportunistic behaviors."': [
           {
             type: "number",
-            text: "(2) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement before Tron's takeover:",
+            text: "(a) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **before Tron's takeover**:",
           },
           {
             type: "number",
-            text: '(2) "Opportunistic behaviors impede the growth and success of the Steem community, which may also undermine other Steem members’ interests. Thus, Steem members should NOT engage in opportunistic behaviors." Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement after Tron\'s takeover:',
+            text: '(b) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **after Tron\'s takeover**:',
           },
         ],
       },
@@ -177,33 +177,33 @@ export const survey: Survey = {
       text: `Cooperative behaviors are the pursuit of the mutual benefits of all Steem members. Opportunistic behaviors are the pursuit of one’s own interest at the expense of other Steem members’ interests.`,
       answers: [{ text: "", goto: 11 }],
       subQuestions: {
-        "(1) How many members you believe are engaging in cooperative behaviors?":
+        "(1) How many members you believe are engaging in **cooperative behaviors**?":
           [
             {
               type: "number",
-              text: "(1) How many members you believe are engaging in cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. Please provide an estimate of the number of people out of 100 before Tron's takeover:",
+              text: "(a) Please provide an estimate of the number of people out of 100 **before Tron's takeover**:",
             },
             {
               type: "number",
-              text: "(1) How many members you believe are engaging in cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. Please provide an estimate of the number of people out of 100 after Tron's takeover:",
+              text: "(b) Please provide an estimate of the number of people out of 100 **after Tron's takeover**:",
             },
           ],
         "(2) How many members you believe are engaging in opportunistic behaviors?":
           [
             {
               type: "number",
-              text: "(2) How many members you believe are engaging in opportunistic behaviors that impede the growth and success of the Steem community and undermine other Steem members’ interests. Please provide an estimate of the number of people out of 100 before Tron's takeover:",
+              text: "(2) Please provide an estimate of the number of people out of 100 **before Tron's takeover**:",
             },
             {
               type: "number",
-              text: "(2) How many members you believe are engaging in opportunistic behaviors that impede the growth and success of the Steem community and undermine other Steem members’ interests. Please provide an estimate of the number of people out of 100 after Tron's takeover:",
+              text: "(2) Please provide an estimate of the number of people out of 100 **after Tron's takeover**:",
             },
           ],
       },
     },
     {
       type: "single_choice", // 11
-      text: "Considering that cooperation is defined as contributing to the growth and success of the Steem community while avoiding undermining other Steem members’ interests. Have you observed decreased cooperation among Steem members following Tron's takeover?",
+      text: "Considering that cooperation is defined as contributing to the growth and success of the Steem community while avoiding undermining other Steem members’ interests. Have you observed **decreased cooperation** among Steem members following Tron's takeover?",
       answers: [
         { text: "Yes", goto: 12 },
         { text: "No", goto: 13 },
@@ -298,12 +298,12 @@ export const survey: Survey = {
         "": [
           {
             type: "single_choice",
-            text: "(1) Consider a scenario where 90% of the Steem community members are actively participating cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. In this context, would you be inclined to engage in cooperative behaviors as well? Yes/No",
+            text: "(1) Consider a scenario where **90% of the Steem community members** are actively participating cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. In this context, would you be inclined to engage in cooperative behaviors as well? Yes/No",
             answers: [{ text: "Yes" }, { text: "No" }],
           },
           {
             type: "single_choice",
-            text: "(2) Now, envision a different scenario where only 10% of the Steem community members are actively participating cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. In this context, would you be inclined to engage in cooperative behaviors as well? Yes/No",
+            text: "(2) Now, envision a different scenario where **only 10% of the Steem community** members are actively participating cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. In this context, would you be inclined to engage in cooperative behaviors as well? Yes/No",
             answers: [{ text: "Yes" }, { text: "No" }],
           },
         ],

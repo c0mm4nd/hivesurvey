@@ -32,6 +32,7 @@ import React, {
   useState,
 } from "react";
 import { match } from "assert";
+import Markdown from "react-markdown";
 
 interface QuestionCardProps {
   question: SurveyQuestion;
@@ -288,7 +289,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
             ([text, questions], index) => {
               return (
                 <>
-                  <FormLabel>{text}</FormLabel>
+                  <FormLabel>
+                    <Markdown>{text}</Markdown>
+                  </FormLabel>
                   {questions.map((q, i) => {
                     allDoneCount++;
 
@@ -341,7 +344,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                       case "text":
                         return (
                           <>
-                            <FormLabel>{q.text}</FormLabel>
+                            <FormLabel>
+                              <Markdown>{text}</Markdown>
+                            </FormLabel>
                             <Textarea
                               placeholder={"Type your answer here"}
                               key={index + i}
@@ -376,7 +381,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                       case "number":
                         return (
                           <>
-                            <FormLabel>{q.text}</FormLabel>
+                            <FormLabel>
+                              <Markdown>{q.text}</Markdown>
+                            </FormLabel>
                             <Input
                               type="number"
                               placeholder={"Type your answer here"}
