@@ -397,6 +397,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                     delete doneRef.current[
                                       index.toString() + i.toString()
                                     ];
+                                    props.setNext(0);
                                     return;
                                   }
 

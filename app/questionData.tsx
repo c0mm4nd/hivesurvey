@@ -152,21 +152,21 @@ export const survey: Survey = {
       subQuestions: {
         '(1) "Steem members should engage in cooperative behaviors."': [
           {
-            type: "text",
+            type: "number",
             text: "(1) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement before Tron's takeover:",
           },
           {
-            type: "text",
+            type: "number",
             text: "(1) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement after Tron's takeover:",
           },
         ],
         '(2) "Steem members should NOT engage in opportunistic behaviors."': [
           {
-            type: "text",
+            type: "number",
             text: "(2) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement before Tron's takeover:",
           },
           {
-            type: "text",
+            type: "number",
             text: '(2) "Opportunistic behaviors impede the growth and success of the Steem community, which may also undermine other Steem members’ interests. Thus, Steem members should NOT engage in opportunistic behaviors." Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement after Tron\'s takeover:',
           },
         ],
