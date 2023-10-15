@@ -161,7 +161,7 @@ const Form = () => {
         <Flex>
           <FormControl>
             {survey.questions.map((question, index) => {
-              console.log("index", index, "step", step, "next", next);
+              // console.log("index", index, "step", step, "next", next);
 
               return <div style={{display: index==step? "block": "none"}}>
               <QuestionCard

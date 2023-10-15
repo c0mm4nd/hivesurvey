@@ -27,8 +27,10 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState,
 } from "react";
+import { match } from "assert";
 
 interface QuestionCardProps {
   question: SurveyQuestion;
@@ -245,6 +247,107 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
             </Tooltip>
           </Slider>
         );
+      case "compound":
+        const doneRef = useRef({} as { [key: string]: boolean });
+        let allDoneCount = 0;
+        if (question.subQuestions) {
+          return Object.entries(question.subQuestions).map(
+            ([text, questions], index) => {
+              return (
+                <>
+                  <FormLabel>{text}</FormLabel>
+                  {questions.map((q, i) => {
+                    allDoneCount++;
+
+                    switch (q.type) {
+                      case "single_choice":
+                        return (
+                          <>
+                            <FormLabel>{q.text}</FormLabel>
+                            <Select
+                              placeholder={"Select one"}
+                              key={index + i}
+                              onChange={(event) => {
+                                const answerElem = q.answers?.find((answer) => {
+                                  return answer.text == event.target.value;
+                                });
+                                console.log(answerElem);
+                                if (answerElem) {
+                                  let newAnswer = answer ?? {};
+                                  newAnswer[q.text] = answerElem.text;
+                                  setAnswer(newAnswer);
+                                  doneRef.current[
+                                    index.toString() + i.toString()
+                                  ] = true;
+                                  const doneCount = Object.entries(
+                                    doneRef.current
+                                  ).length;
+                                  console.log(doneCount, allDoneCount);
+                                  if (doneCount == allDoneCount) {
+                                    props.setNext(question.answers[0].goto);
+                                  }
+
+                                  if (setRestrict) setRestrict(true);
+                                } else {
+                                  let newAnswer = answer ?? {};
+                                  newAnswer[q.text] = null;
+                                  setAnswer(newAnswer);
+                                  props.setNext(0);
+                                  if (setRestrict) setRestrict(false);
+                                }
+                              }}
+                            >
+                              {Object.entries(q.answers ?? {}).map(([k, v]) => (
+                                <option key={`${k}_${v.text}`} value={v.text}>
+                                  {v.text}
+                                </option>
+                              ))}
+                            </Select>
+                          </>
+                        );
+                      case "text":
+                        return (
+                          <>
+                            <FormLabel>{q.text}</FormLabel>
+                            <Textarea
+                              placeholder={"Type your answer here"}
+                              key={index + i}
+                              onChange={(event) => {
+                                // console.log(event)
+                                if (event.target.value) {
+                                  let newAnswer = answer ?? {};
+                                  newAnswer[q.text] = event.target.value;
+                                  setAnswer(newAnswer);
+
+                                  doneRef.current[
+                                    index.toString() + i.toString()
+                                  ] = true;
+                                  const doneCount = Object.entries(
+                                    doneRef.current
+                                  ).length;
+                                  console.log(
+                                    doneRef.current,
+                                    doneCount,
+                                    allDoneCount
+                                  );
+                                  if (doneCount == allDoneCount) {
+                                    props.setNext(question.answers[0].goto);
+                                  }
+                                }
+
+                                if (setRestrict) setRestrict(true);
+                              }}
+                            />
+                          </>
+                        );
+                    }
+                  })}
+                </>
+              );
+            }
+          );
+        }
+
       // case QuestionType.Compound:
       //   const restricts = [] as boolean[]
       //   const subQuestionElements: ReactNode[] = Object.entries(question.compound ?? {}).map((entry) => {
