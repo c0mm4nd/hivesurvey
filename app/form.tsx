@@ -95,16 +95,16 @@ const Form = () => {
   const cardsRef = useRef({} as { [k: number]: QuestionCardRef | null });
 
   const getQuestionAnswers = function () {
-    let answers = {}  as { [k: number]: any }
-    if (cardsRef.current ) {
-    Object.entries(cardsRef.current ).forEach(([key, value]) => {
-      if (value != null) {
-        answers[key] = value.getAnswer()?? ""
-      }
-    })
-  }
-    return answers
-  }
+    let answers = {} as { [k: number]: any };
+    if (cardsRef.current) {
+      Object.entries(cardsRef.current).forEach(([key, value]) => {
+        if (value != null) {
+          answers[key] = value.getAnswer();
+        }
+      });
+    }
+    return answers;
+  };
 
   const cancelRef = useRef();
   interface IAlert {
@@ -163,31 +163,17 @@ const Form = () => {
             {survey.questions.map((question, index) => {
               console.log("index", index, "step", step, "next", next);
 
-              if (index != step) {
-                return (
-                  <VisuallyHidden>
-                    <QuestionCard
-                      question={question}
-                      setNext={setNext}
-                      key={index}
-                      ref={(el) => {
-                        cardsRef.current[index] = el;
-                      }}
-                    ></QuestionCard>
-                  </VisuallyHidden>
-                );
-              } else {
-                return (
-                  <QuestionCard
-                    question={question}
-                    setNext={setNext}
-                    key={index}
-                    ref={(el) => {
-                      cardsRef.current[index] = el;
-                    }}
-                  ></QuestionCard>
-                );
-              }
+              return <div style={{display: index==step? "block": "none"}}>
+              <QuestionCard
+                question={question}
+                setNext={setNext}
+                key={index}
+                ref={(el) => {
+                  cardsRef.current[index] = el;
+                }}
+              ></QuestionCard>
+              </div>
+
             })}
           </FormControl>
         </Flex>
@@ -212,7 +198,10 @@ const Form = () => {
                 w="7rem"
                 hidden={step == survey.questions.length - 1}
                 isDisabled={
-                  next == 0 || next == 255 || next == -1 // user == null
+                  next == 0 ||
+                  next == 255 ||
+                  next == -1 ||
+                  next == survey.questions.length // user == null
                 }
                 onClick={() => {
                   setStep(next);
@@ -247,7 +236,7 @@ const Form = () => {
                     status: "info",
                     duration: 9000,
                     isClosable: true,
-                  })
+                  });
                   if (user == null) {
                     setAlert({
                       title: "Require Login",
@@ -255,7 +244,6 @@ const Form = () => {
                     });
                     onAlertOpen();
                   } else {
-
                     const response = await fetch("/api/submit", {
                       method: "POST",
                       body: JSON.stringify({

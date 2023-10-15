@@ -386,7 +386,7 @@ export const survey: Survey = {
     {
       type: 'rating',
       text: 'Please rate the appropriateness of Tron\'s takeover on February 14, 2020, based on your opinion.',
-      range: [0, 10],
+      range: [1, 5],
       answers: [
         { text: '1 = Completely appropriate', goto: 5 },
         { text: '2 = Appropriate', goto: 5 },
@@ -398,7 +398,7 @@ export const survey: Survey = {
     {
       type: 'rating',
       text: 'To what extent do you agree with the opinion that Tron\'s takeover on February 14, 2020, violated certain implicit community rules or standards in Steem?',
-      range: [0, 10],
+      range: [1, 5],
       answers: [
         { text: '1 = Fully agree', goto: 6 },
         { text: '2 = Agree', goto: 6 },
@@ -433,7 +433,7 @@ export const survey: Survey = {
       ]
     },
     {
-      type: 'text',
+      type: 'text', // 9
       text: '(1) "Cooperative behaviors contribute to the growth and success of the Steem community, which can benefit all Steem members. Thus, Steem members should engage in cooperative behaviors." Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement before Tron\'s takeover:',
       answers: [
         { text: '', goto: 10 }
@@ -493,32 +493,32 @@ export const survey: Survey = {
       text: 'Considering that cooperation is defined as contributing to the growth and success of the Steem community while avoiding undermining other Steem members’ interests. Have you observed decreased cooperation among Steem members following Tron\'s takeover?',
       answers: [
         { text: 'Yes', goto: 18 },
-        { text: 'No', goto: 20 }
+        { text: 'No', goto: 19 }
       ]
     },
     {
-      type: 'multiple_choice',
+      type: 'multiple_choice', // 18
       text: 'You answered yes to decreased cooperation. What do you believe are the primary reasons for this decrease? (Select all that apply)',
       answers: [
         { text: 'A. This takeover led to increased disagreement and conflicts among Steem members', goto: 19 },
         { text: 'B. A perception that, for some Steem members, individual financial gains have become prioritized over contributing to the community', goto: 19 },
         { text: 'C. A rise in unpredictable behaviors from other members, generating a sense of uncertainty', goto: 19 },
         { text: 'D. A sense of disappointment stemming from the lack of mechanisms to punish individuals who were violating community rules and agreements', goto: 19 },
-        { text: 'E. Other (please specify): _______________', input: true, goto: 19 }
+        { text: 'E. Other (please specify): ', input: true, goto: 19 }
       ]
     },
     {
-      type: 'single_choice',
+      type: 'single_choice', // 19
       text: 'Have you ever bought votes from others or from bots to increase the upvotes on your articles in order to earn token rewards?',
       answers: [
-        { text: 'Yes (go to Q15)', goto: 21 },
-        { text: 'No', goto: 22 }
+        { text: 'Yes', goto: 20 },
+        { text: 'No', goto: 21 }
       ]
     },
     {
-      type: 'rating',
+      type: 'rating', // 20
       text: 'How do you expect the value of STEEM over the next 5 years just after Tron\'s takeover?',
-      range: [0, 10],
+      range: [1, 5],
       answers: [
         { text: '1 = Very Pessimistic (I believe STEEM will significantly decrease in value)', goto: 23 },
         { text: '2 = Pessimistic (I believe STEEM will decrease in value)', goto: 23 },
@@ -528,30 +528,30 @@ export const survey: Survey = {
       ]
     },
     {
-      type: 'multiple_choice',
+      type: 'multiple_choice', // 21
       text: 'If you have NOT purchased votes from others, please select the most applicable reason below:',
       answers: [
-        { text: 'A. You were unaware of the opportunity for vote purchasing/You are unsure where to purchase votes.', goto: 24 },
-        { text: 'B. You believe that vote purchasing would have a detrimental impact on the Steem community.', goto: 24 },
-        { text: 'C. You consider vote purchasing to earn token rewards a form of “cheating.”', goto: 24 },
+        { text: 'A. You were unaware of the opportunity for vote purchasing/You are unsure where to purchase votes.', goto: 22 },
+        { text: 'B. You believe that vote purchasing would have a detrimental impact on the Steem community.', goto: 22 },
+        { text: 'C. You consider vote purchasing to earn token rewards a form of “cheating.”', goto: 22 },
         { text: 'D. You are concerned that your friends within the Steem community might become aware of your actions if you were to purchase votes.', goto: 24 },
-        { text: 'E. Other (please specify): __________', input: true, goto: 24 }
+        { text: 'E. Other (please specify): ', input: true, goto: 22 }
       ]
     },
     {
-      type: 'single_choice',
+      type: 'single_choice', // 22
       text: '(1) Consider a scenario where 90% of the Steem community members are actively participating cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. In this context, would you be inclined to engage in cooperative behaviors as well? Yes/No',
       answers: [
-        { text: 'Yes', goto: 25 },
-        { text: 'No', goto: 25 }
+        { text: 'Yes', goto: 23 },
+        { text: 'No', goto: 23 }
       ]
     },
     {
-      type: 'single_choice',
+      type: 'single_choice', // 23
       text: '(2) Now, envision a different scenario where only 10% of the Steem community members are actively participating cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. In this context, would you be inclined to engage in cooperative behaviors as well? Yes/No',
       answers: [
-        { text: 'Yes', goto: 26 },
-        { text: 'No', goto: 26 }
+        { text: 'Yes', goto: 24 },
+        { text: 'No', goto: 24 }
       ]
     }
   ]

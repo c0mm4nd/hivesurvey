@@ -43,15 +43,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
   const [inputValue, setInputValue] = useState("");
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      getAnswer: () => {
-        return answer;
-      },
-    }),
-    [answer]
-  );
+  useImperativeHandle(ref, () => ({
+    getAnswer: () => {
+      return answer;
+    },
+  }));
 
   const inputBar = (
     question: SurveyQuestion,
@@ -88,7 +84,6 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
       case "multiple_choice":
         const options = Object.entries(question.answers || []).map(([k, v]) => {
           if (v.input) {
-
             const [checked, setChecked] = useState(false);
             return (
               <>
@@ -100,13 +95,13 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   {v.text}
                 </Checkbox>
                 <Input
-                    type="text"
-                    value={inputValue}
-                    onChange={(val) => {
-                      setInputValue(val.target.value);
-                      setChecked(true);
-                    }}
-                  />
+                  type="text"
+                  value={inputValue}
+                  onChange={(val) => {
+                    setInputValue(val.target.value);
+                    setChecked(true);
+                  }}
+                />
               </>
             );
           } else {
@@ -144,12 +139,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 if (answerElem) {
                   if (answerElem.input) {
                     selected.push(answerElem.text + inputValue);
-                    props.setNext(answerElem.goto || 0);
+                    props.setNext(answerElem.goto);
                   } else {
                     selected.push(answerElem.text);
-                    props.setNext(answerElem.goto || 0);
+                    props.setNext(answerElem.goto);
                   }
-  
                 }
               }
               setAnswer(selected);
@@ -166,12 +160,12 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
       case "text":
         return (
           <Textarea
-            placeholder={question.text}
+            placeholder={"Type your answer here"}
             onChange={(event) => {
               // console.log(event)
               if (event.target.value) {
                 setAnswer(event.target.value);
-                props.setNext(question.answers[0].goto || 0);
+                props.setNext(question.answers[0].goto);
               }
 
               if (setRestrict) setRestrict(true);
