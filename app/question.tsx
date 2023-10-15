@@ -18,6 +18,7 @@ import {
   Stack,
   Textarea,
   Tooltip,
+  useToast,
 } from "@chakra-ui/react";
 import { Question, QuestionType, SurveyQuestion } from "./questionData";
 import { FormValues } from "./form";
@@ -44,6 +45,7 @@ export type QuestionCardRef = {
 export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
   const [inputValue, setInputValue] = useState("");
+  const toast = useToast();
 
   useImperativeHandle(ref, () => ({
     getAnswer: () => {
@@ -207,6 +209,37 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
       //       <RangeSliderThumb index={1} />
       //     </Tooltip>
       //   </RangeSlider>
+      case "number":
+        return (
+          <Input
+            type="number"
+            min={0}
+            max={100}
+            placeholder={"Type your answer here"}
+            onChange={(event) => {
+              // console.log(event)
+              if (event.target.value) {
+                const num = parseInt(event.target.value);
+                if (num > 100 || num < 0) {
+                  toast({
+                    title: "Error",
+                    description: "Please enter a number between 0 and 100",
+                    status: "error",
+                    duration: 9000,
+                    isClosable: true,
+                  });
+                  props.setNext(0);
+                  return;
+                }
+
+                setAnswer(num);
+                props.setNext(question.answers[0].goto);
+              }
+
+              if (setRestrict) setRestrict(true);
+            }}
+          />
+        );
       case "rating":
         const [sliderValue, setSliderValue] = React.useState(
           (question.range ? question.range[0] + question.range[1] : 10) / 2
@@ -266,7 +299,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                             <FormLabel>{q.text}</FormLabel>
                             <Select
                               placeholder={"Select one"}
-                              key={index + i}
+                              key={index.toString() + i.toString()}
                               onChange={(event) => {
                                 const answerElem = q.answers?.find((answer) => {
                                   return answer.text == event.target.value;
@@ -317,6 +350,58 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 if (event.target.value) {
                                   let newAnswer = answer ?? {};
                                   newAnswer[q.text] = event.target.value;
+                                  setAnswer(newAnswer);
+
+                                  doneRef.current[
+                                    index.toString() + i.toString()
+                                  ] = true;
+                                  const doneCount = Object.entries(
+                                    doneRef.current
+                                  ).length;
+                                  console.log(
+                                    doneRef.current,
+                                    doneCount,
+                                    allDoneCount
+                                  );
+                                  if (doneCount == allDoneCount) {
+                                    props.setNext(question.answers[0].goto);
+                                  }
+                                }
+
+                                if (setRestrict) setRestrict(true);
+                              }}
+                            />
+                          </>
+                        );
+                      case "number":
+                        return (
+                          <>
+                            <FormLabel>{q.text}</FormLabel>
+                            <Input
+                              type="number"
+                              placeholder={"Type your answer here"}
+                              key={index.toString() + i.toString()}
+                              onChange={(event) => {
+                                // console.log(event)
+                                if (event.target.value) {
+                                  const num = parseInt(event.target.value);
+                                  if (num > 100 || num < 0) {
+                                    toast({
+                                      title: "Error",
+                                      description:
+                                        "Please enter a number between 0 and 100",
+                                      status: "error",
+                                      duration: 9000,
+                                      isClosable: true,
+                                    });
+                                    delete doneRef.current[
+                                      index.toString() + i.toString()
+                                    ];
+                                    return;
+                                  }
+
+                                  let newAnswer = answer ?? {};
+                                  newAnswer[q.text] = num;
                                   setAnswer(newAnswer);
 
                                   doneRef.current[

@@ -32,7 +32,7 @@ export interface Survey {
 }
 
 export interface SurveyQuestion {
-  type: "single_choice" | "multiple_choice" | "text" | "rating" | "compound";
+  type: "single_choice" | "multiple_choice" | "text" | "rating" | "compound" | "number";
   text: string;
   answers: SurveyAnswer[];
   range?: number[];
@@ -40,7 +40,7 @@ export interface SurveyQuestion {
 }
 
 export interface SubQuestion {
-  type: "text" | "single_choice";
+  type: "text" | "single_choice" | "number";
   text: string;
   answers?: SubAnswer[];
 }
@@ -111,7 +111,7 @@ export const survey: Survey = {
       ],
     },
     {
-      type: "text", // 6
+      type: "number", // 6
       text: "How many individuals do you believe would agree with the viewpoint that Tron's takeover was inappropriate and might have breached certain implicit community rules or standards? Please provide an estimate of the number of people out of 100:",
       answers: [{ text: "", goto: 7 }],
     },
@@ -180,22 +180,22 @@ export const survey: Survey = {
         "(1) How many members you believe are engaging in cooperative behaviors?":
           [
             {
-              type: "text",
+              type: "number",
               text: "(1) How many members you believe are engaging in cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. Please provide an estimate of the number of people out of 100 before Tron's takeover:",
             },
             {
-              type: "text",
+              type: "number",
               text: "(1) How many members you believe are engaging in cooperative behaviors that contribute to the growth and success of the Steem community and benefit all Steem members. Please provide an estimate of the number of people out of 100 after Tron's takeover:",
             },
           ],
         "(2) How many members you believe are engaging in opportunistic behaviors?":
           [
             {
-              type: "text",
+              type: "number",
               text: "(2) How many members you believe are engaging in opportunistic behaviors that impede the growth and success of the Steem community and undermine other Steem members’ interests. Please provide an estimate of the number of people out of 100 before Tron's takeover:",
             },
             {
-              type: "text",
+              type: "number",
               text: "(2) How many members you believe are engaging in opportunistic behaviors that impede the growth and success of the Steem community and undermine other Steem members’ interests. Please provide an estimate of the number of people out of 100 after Tron's takeover:",
             },
           ],
