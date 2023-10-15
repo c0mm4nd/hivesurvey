@@ -1,6 +1,18 @@
-'use client'
+"use client";
 
-import { Dispatch, ReactNode, Ref, SetStateAction, createContext, useCallback, useContext, useEffect, useRef, useState, useTransition } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  Ref,
+  SetStateAction,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import {
   Progress,
   Box,
@@ -20,15 +32,16 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   useDisclosure,
-} from '@chakra-ui/react';
+  VisuallyHidden,
+} from "@chakra-ui/react";
 
-import { useToast } from '@chakra-ui/react';
-import { UserContext } from './providers';
-import { Question, QuestionType, initialQuestions } from './questionData';
-import QuestionCard from './question'
+import { useToast } from "@chakra-ui/react";
+import { UserContext } from "./providers";
+import { Question, QuestionType, survey } from "./questionData";
+import QuestionCard, { QuestionCardRef } from "./question";
+import React from "react";
 
-
-export type FormValues = { [id: number]: number | number[] | string }
+export type FormValues = { [id: number]: number | number[] | string };
 
 // type SubformProps = {
 //   step: number,
@@ -63,55 +76,64 @@ export type FormValues = { [id: number]: number | number[] | string }
 // };
 
 const Form = () => {
-  let [formValues, setFormValues] = useState({} as FormValues)
-
-  let [questions, setQuestions] = useState(initialQuestions)
-
-  console.log(questions.length)
+  console.log("survey.questions.length", survey.questions.length);
 
   const toast = useToast();
   const [step, setStep] = useState(0);
   const [next, setNext] = useState(0);
 
-  const [progress, setProgress] = useState(100 / questions.length);
+  const [progress, setProgress] = useState(100 / survey.questions.length);
 
   const { user, setUser } = useContext(UserContext);
 
-  const { isOpen: isAlertOpen, onOpen: onAlertOpen, onClose: onAlertClose } = useDisclosure()
+  const {
+    isOpen: isAlertOpen,
+    onOpen: onAlertOpen,
+    onClose: onAlertClose,
+  } = useDisclosure();
 
-  const cancelRef = useRef()
-  interface IAlert {
-    title: string
-    body: string,
+  const cardsRef = useRef({} as { [k: number]: QuestionCardRef | null });
+
+  const getQuestionAnswers = function () {
+    let answers = {}  as { [k: number]: any }
+    if (cardsRef.current ) {
+    Object.entries(cardsRef.current ).forEach(([key, value]) => {
+      if (value != null) {
+        answers[key] = value.getAnswer()?? ""
+      }
+    })
   }
-  const [alert, setAlert] = useState<IAlert | null>(null)
+    return answers
+  }
 
-  let [isPending, startTransition] = useTransition()
+  const cancelRef = useRef();
+  interface IAlert {
+    title: string;
+    body: string;
+  }
+  const [alert, setAlert] = useState<IAlert | null>(null);
 
   return (
     <>
       <AlertDialog
         isOpen={isAlertOpen}
-        onClose={onAlertClose} leastDestructiveRef={null}>
+        onClose={onAlertClose}
+        leastDestructiveRef={null}
+      >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
               {alert?.title}
             </AlertDialogHeader>
 
-            <AlertDialogBody>
-              {alert?.body}
-            </AlertDialogBody>
+            <AlertDialogBody>{alert?.body}</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={onAlertClose}>
-                Close
-              </Button>
+              <Button onClick={onAlertClose}>Close</Button>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
-
 
       <Box
         borderWidth="1px"
@@ -120,40 +142,77 @@ const Form = () => {
         maxWidth={800}
         p={6}
         m="10px auto"
-        as="form">
+        as="form"
+      >
         <Progress
           hasStripe
           value={progress}
           mb="5%"
           mx="5%"
-          isAnimated></Progress>
-        <input hidden={true} name='name' value={user?.name} readOnly={true}></input>
+          isAnimated
+        ></Progress>
+        <input
+          hidden={true}
+          name="name"
+          value={user?.name}
+          readOnly={true}
+        ></input>
 
-        {
-          <QuestionCard question={questions[step]} formValues={formValues} setNext={setNext} setFormValues={setFormValues} key={questions[step].id} ></QuestionCard>
-        }
+        <Flex>
+          <FormControl>
+            {survey.questions.map((question, index) => {
+              console.log("index", index, "step", step, "next", next);
+
+              if (index != step) {
+                return (
+                  <VisuallyHidden>
+                    <QuestionCard
+                      question={question}
+                      setNext={setNext}
+                      key={index}
+                      ref={(el) => {
+                        cardsRef.current[index] = el;
+                      }}
+                    ></QuestionCard>
+                  </VisuallyHidden>
+                );
+              } else {
+                return (
+                  <QuestionCard
+                    question={question}
+                    setNext={setNext}
+                    key={index}
+                    ref={(el) => {
+                      cardsRef.current[index] = el;
+                    }}
+                  ></QuestionCard>
+                );
+              }
+            })}
+          </FormControl>
+        </Flex>
         <ButtonGroup mt="5%" w="100%">
           <Flex w="100%" justifyContent="space-between">
             <Flex>
               <Button
                 onClick={() => {
-                  setStep(0)
-                  setProgress(100 / questions.length)
-                  setNext(0)
+                  setStep(0);
+                  setProgress(100 / survey.questions.length);
+                  setNext(0);
                 }}
                 isDisabled={step === 0}
                 colorScheme="teal"
                 variant="solid"
                 w="7rem"
-                mr="5%">
+                mr="5%"
+              >
                 Reset
               </Button>
               <Button
                 w="7rem"
-                hidden={step == questions.length - 1}
+                hidden={step == survey.questions.length - 1}
                 isDisabled={
-                  next == 0 || next == 255 || next == -1 ||
-                  false // user == null
+                  next == 0 || next == 255 || next == -1 // user == null
                 }
                 onClick={() => {
                   setStep(next);
@@ -161,52 +220,76 @@ const Form = () => {
                   if (next == -1 || next == 255) {
                     setProgress(100);
                   } else {
-                    setProgress((next + 1) * 100 / questions.length);
+                    setProgress(((next + 1) * 100) / survey.questions.length);
                   }
 
-                  setNext(0)
+                  setNext(0);
                 }}
                 colorScheme="teal"
-                variant="outline">
+                variant="outline"
+              >
                 Next
               </Button>
             </Flex>
-            {(next == 255 || next == -1) ? (
+            {next == 255 || next == -1 || next == survey.questions.length ? (
               <Button
                 // type='submit'
                 w="7rem"
                 colorScheme="red"
-                variant="solid" onClick={async event => {
-
+                variant="solid"
+                onClick={async (event) => {
+                  toast({
+                    title: "Submitting...",
+                    description: JSON.stringify({
+                      user: user,
+                      form: getQuestionAnswers(),
+                    }),
+                    status: "info",
+                    duration: 9000,
+                    isClosable: true,
+                  })
                   if (user == null) {
-                    setAlert({ title: "Require Login", body: "Login is required to submit your survey and gain the reward!" })
-                    onAlertOpen()
+                    setAlert({
+                      title: "Require Login",
+                      body: "Login is required to submit your survey and gain the reward!",
+                    });
+                    onAlertOpen();
                   } else {
+
                     const response = await fetch("/api/submit", {
                       method: "POST",
                       body: JSON.stringify({
                         user: user,
-                        form: formValues,
+                        form: getQuestionAnswers(),
                       }),
                     });
                     const resp = await response.json();
                     console.log(resp);
 
                     if (resp.error) {
-                      setAlert({ title: "Error", body: `detail: ${resp.error}` })
-                      onAlertOpen()
+                      setAlert({
+                        title: "Error",
+                        body: `detail: ${resp.error}`,
+                      });
+                      onAlertOpen();
                     } else {
                       if (resp.result.txId) {
-                        setAlert({ title: "Thanks for your submission", body: `Your reward has beed claimed by txid: ${resp.result.txId}` })
+                        setAlert({
+                          title: "Thanks for your submission",
+                          body: `Your reward has beed claimed by txid: ${resp.result.txId}`,
+                        });
                       } else {
-                        setAlert({ title: "Thanks for your submission", body: `` })
+                        setAlert({
+                          title: "Thanks for your submission",
+                          body: ``,
+                        });
                       }
 
-                      onAlertOpen()
+                      onAlertOpen();
                     }
                   }
-
-                }}>
+                }}
+              >
                 Submit
               </Button>
             ) : null}

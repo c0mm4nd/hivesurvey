@@ -1,7 +1,7 @@
 'use client'
 
 import { CloseIcon, HamburgerIcon, AddIcon } from "@chakra-ui/icons";
-import { useColorModeValue, Flex, IconButton, HStack, Button, Menu, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Stack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, InputGroup, InputLeftAddon, ModalFooter, useDisclosure, Box, Link, Input } from "@chakra-ui/react";
+import { useColorModeValue, Flex, IconButton, HStack, Button, Menu, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Stack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, InputGroup, InputLeftAddon, ModalFooter, useDisclosure, Box, Link, Input, useToast } from "@chakra-ui/react";
 import { KeychainSDK, KeychainKeyTypes, Login } from "keychain-sdk";
 import { useContext, useCallback, useState, ReactNode } from "react";
 import { User, UserContext } from "./providers";
@@ -24,11 +24,13 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 );
 
 export default function Topbar() {
+  const toast = useToast()
   const { user, setUser } = useContext(UserContext);
 
   let keychainLogin = useCallback(async (username: string, data: string) => {
     console.log("window", window)
     let keychain = new KeychainSDK(window);
+    console.log("keychain", keychain);
 
     const formParamsAsObject = {
       "data": {
@@ -38,9 +40,20 @@ export default function Topbar() {
         "title": "Login"
       }
     }
+    console.log("formParamsAsObject", formParamsAsObject);
     const login = await keychain
       .login(
-        formParamsAsObject.data as Login);
+        formParamsAsObject.data as Login).catch((e) => {
+          toast({
+            title: 'Login failed',
+            description: JSON.stringify(e),
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        });
+    console.log("login", login);
+
 
     if (login.success == true) {
       // sig = login.result, pubkey = login.publickey
@@ -109,7 +122,7 @@ export default function Topbar() {
                   <MenuItem>Link 1</MenuItem>
                   <MenuItem>Link 2</MenuItem>
                   <MenuDivider />
-                  <MenuItem onClick={() => setUser(null) }>Logout</MenuItem>
+                  <MenuItem onClick={() => setUser(null)}>Logout</MenuItem>
                 </MenuList>
               </Menu>
           }
@@ -133,9 +146,24 @@ export default function Topbar() {
         <ModalHeader>Login with Keychain</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
+          <Link href="https://hive-keychain.com/">Hive Keychain</Link> extension is required
           <InputGroup>
             <InputLeftAddon children='@' />
-            <Input type='text' placeholder='username' value={inputUsername} onChange={event => { setInputUsername(event.target.value) }} />
+            <Input type='text' placeholder='username' value={inputUsername} onKeyDown={async (e) => {
+              if (e.key == "Enter") {
+                try {
+                await keychainLogin(inputUsername, "hivesurvey login");
+                } catch (e) {
+                  toast({
+                    title: 'Login failed',
+                    description: JSON.stringify(e),
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  })
+                }
+              }
+            }} onChange={event => { setInputUsername(event.target.value) }} />
           </InputGroup>
         </ModalBody>
 
@@ -144,7 +172,7 @@ export default function Topbar() {
             Close
           </Button>
           <Button colorScheme='blue' onClick={async () => {
-            keychainLogin(inputUsername, "hivesurvey login");
+            await keychainLogin(inputUsername, "hivesurvey login");
 
           }}>Login</Button>
         </ModalFooter>
