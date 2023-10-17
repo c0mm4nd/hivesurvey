@@ -32,8 +32,14 @@ export interface Survey {
 }
 
 export interface SurveyQuestion {
-  type: "single_choice" | "multiple_choice" | "text" | "rating" | "compound" | "number";
-  text: string;
+  type:
+    | "single_choice"
+    | "multiple_choice"
+    | "text"
+    | "rating"
+    | "compound"
+    | "number";
+  text: string | ReactElement;
   answers: SurveyAnswer[];
   range?: number[];
   subQuestions?: { [text: string]: SubQuestion[] };
@@ -117,7 +123,7 @@ export const survey: Survey = {
     },
     {
       type: "multiple_choice", // 7
-      text: "Cooperative behaviors contribute to the growth and success of the Steem community, which can benefit all Steem members. Which of the following behaviors do you believe is a cooperative behavior? (Please select all that apply.)",
+      text: "Cooperative behaviors are the pursuit of the success and growth of the Steem community that can benefit all community members. Which of the following behaviors do you believe is a cooperative behavior? (Please select all that apply.)",
       answers: [
         { text: "A. Posting high-quality content (e.g., articles)", goto: 8 },
         {
@@ -132,7 +138,7 @@ export const survey: Survey = {
     },
     {
       type: "multiple_choice", // 8
-      text: "Opportunistic behaviors impede the growth and success of the Steem community, which may also undermine other Steem members’ interests. Which of the following behaviors do you believe is an opportunistic behavior? (Please select all that apply.)",
+      text: "Opportunistic behaviors are the pursuit of one’s own interest at the expense of the success and growth of the Steem community that can benefit all community members. Which of the following behaviors do you believe is an opportunistic behavior? (Please select all that apply.)",
       answers: [
         { text: "A. Posting high-quality content (e.g., articles)", goto: 9 },
         {
@@ -147,7 +153,16 @@ export const survey: Survey = {
     },
     {
       type: "compound", // 9
-      text: `Cooperative behaviors are the pursuit of the mutual benefits of all Steem members. Opportunistic behaviors are the pursuit of one's own interest at the expense of other Steem members' interests.`,
+      text: (
+        <>
+          Cooperative behaviors are the pursuit of the success and growth of the
+          Steem community that can benefit all community members.
+          <br />
+          Opportunistic behaviors are the pursuit of one's own interest at the
+          expense of the success and growth of the Steem community that can
+          benefit all community members.
+        </>
+      ),
       answers: [{ text: "", goto: 10 }],
       subQuestions: {
         '(1) "Steem members should engage in cooperative behaviors."': [
@@ -160,21 +175,31 @@ export const survey: Survey = {
             text: "(b) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **after Tron's takeover**:",
           },
         ],
-        '(2) "Steem members should **NOT** engage in opportunistic behaviors."': [
-          {
-            type: "number",
-            text: "(a) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **before Tron's takeover**:",
-          },
-          {
-            type: "number",
-            text: '(b) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **after Tron\'s takeover**:',
-          },
-        ],
+        '(2) "Steem members should **NOT** engage in opportunistic behaviors."':
+          [
+            {
+              type: "number",
+              text: "(a) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **before Tron's takeover**:",
+            },
+            {
+              type: "number",
+              text: "(b) Please provide an estimate of the number of people out of 100 who you think would AGREE with this statement **after Tron's takeover**:",
+            },
+          ],
       },
     },
     {
       type: "compound", // 10
-      text: `Cooperative behaviors are the pursuit of the mutual benefits of all Steem members. Opportunistic behaviors are the pursuit of one’s own interest at the expense of other Steem members’ interests.`,
+      text:  (
+        <>
+          Cooperative behaviors are the pursuit of the success and growth of the
+          Steem community that can benefit all community members.
+          <br />
+          Opportunistic behaviors are the pursuit of one's own interest at the
+          expense of the success and growth of the Steem community that can
+          benefit all community members.
+        </>
+      ),
       answers: [{ text: "", goto: 11 }],
       subQuestions: {
         "(1) How many members you believe are engaging in **cooperative behaviors**?":
@@ -203,7 +228,7 @@ export const survey: Survey = {
     },
     {
       type: "single_choice", // 11
-      text: "Considering that cooperation is defined as contributing to the growth and success of the Steem community while avoiding undermining other Steem members’ interests. Have you observed **decreased cooperation** among Steem members following Tron's takeover?",
+      text: "Considering that cooperation is defined as the pursuit of the success and growth of the Steem community that can benefit all community members rather than pursuit of one’s own interest at the expense of other Steem members’ interests. Have you observed **decreased cooperation** among Steem members following Tron's takeover?",
       answers: [
         { text: "Yes", goto: 12 },
         { text: "No", goto: 13 },
@@ -234,7 +259,7 @@ export const survey: Survey = {
     },
     {
       type: "single_choice", // 13
-      text: "Have you ever bought votes from others or from bots to increase the upvotes on your articles in order to earn token rewards?",
+      text: "Have you ever bought votes from others or from bots to earn STEEM/STEEM POWER as rewards?",
       answers: [
         { text: "Yes", goto: 14 },
         { text: "No", goto: 15 },
@@ -242,7 +267,7 @@ export const survey: Survey = {
     },
     {
       type: "single_choice", // 14
-      text: "How do you expect the value of STEEM over the next 5 years just after Tron's takeover?",
+      text: "How do you expect the value of STEEM over the next 5 years just after Tron's takeover on February 14, 2020?",
       range: [1, 5],
       answers: [
         {

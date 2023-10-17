@@ -227,16 +227,16 @@ const Form = () => {
                 colorScheme="red"
                 variant="solid"
                 onClick={async (event) => {
-                  toast({
-                    title: "Submitting...",
-                    description: JSON.stringify({
-                      user: user,
-                      form: getQuestionAnswers(),
-                    }),
-                    status: "info",
-                    duration: 9000,
-                    isClosable: true,
-                  });
+                  // toast({
+                  //   title: "Submitting...",
+                  //   description: JSON.stringify({
+                  //     user: user,
+                  //     form: getQuestionAnswers(),
+                  //   }),
+                  //   status: "info",
+                  //   duration: 9000,
+                  //   isClosable: true,
+                  // });
                   if (user == null) {
                     setAlert({
                       title: "Require Login",
