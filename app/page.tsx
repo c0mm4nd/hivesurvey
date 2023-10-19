@@ -12,14 +12,16 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Form from "./form";
-import Topbar from "./topbar";
+import Topbar, { TopbarHandler } from "./topbar";
+import { useRef } from "react";
 
 export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: true });
+  const topbarRef = useRef<TopbarHandler>(null)
 
   return (
     <>
-      <Topbar></Topbar>
+      <Topbar ref={topbarRef}></Topbar>
       <Form></Form>
       <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -96,7 +98,10 @@ export default function Home() {
             >
               Disagree and exit
             </Button>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="blue" mr={3} onClick={()=>{
+              onClose()
+              topbarRef.current?.onOpenLogin()
+            }}>
               I understand and agree to participate in this online survey
             </Button>
           </ModalFooter>

@@ -155,12 +155,17 @@ export const survey: Survey = {
       type: "compound", // 9
       text: (
         <>
-          Cooperative behaviors are the pursuit of the success and growth of the
-          Steem community that can benefit all community members.
+          <p>
+            Cooperative behaviors are the pursuit of the success and growth of
+            the Steem community that can benefit all community members.
+          </p>
           <br />
-          Opportunistic behaviors are the pursuit of one's own interest at the
-          expense of the success and growth of the Steem community that can
-          benefit all community members.
+          <p >
+            Opportunistic behaviors are the pursuit of one's own interest at the
+            expense of the success and growth of the Steem community that can
+            benefit all community members.
+          </p>
+          <br />
         </>
       ),
       answers: [{ text: "", goto: 10 }],
@@ -172,7 +177,7 @@ export const survey: Survey = {
               <>
                 (a) Please provide an estimate of the number of people out of
                 100 who you think would AGREE with this statement
-                <b>before Tron's takeover</b>:
+                <b> before Tron's takeover</b>:
               </>
             ),
           },
@@ -182,7 +187,7 @@ export const survey: Survey = {
               <>
                 (b) Please provide an estimate of the number of people out of
                 100 who you think would AGREE with this statement
-                <b>after Tron's takeover</b>:
+                <b> after Tron's takeover</b>:
               </>
             ),
           },
@@ -194,7 +199,7 @@ export const survey: Survey = {
               <>
                 (a) Please provide an estimate of the number of people out of
                 100 who you think would AGREE with this statement
-                <b>before Tron's takeover</b>:
+                <b> before Tron's takeover</b>:
               </>
             ),
           },
@@ -204,7 +209,7 @@ export const survey: Survey = {
               <>
                 (b) Please provide an estimate of the number of people out of
                 100 who you think would AGREE with this statement
-                <b>after Tron's takeover</b>:
+                <b> after Tron's takeover</b>:
               </>
             ),
           },
@@ -215,12 +220,17 @@ export const survey: Survey = {
       type: "compound", // 10
       text: (
         <>
-          Cooperative behaviors are the pursuit of the success and growth of the
-          Steem community that can benefit all community members.
+          <p >
+            Cooperative behaviors are the pursuit of the success and growth of
+            the Steem community that can benefit all community members.
+          </p>
           <br />
-          Opportunistic behaviors are the pursuit of one's own interest at the
-          expense of the success and growth of the Steem community that can
-          benefit all community members.
+          <p >
+            Opportunistic behaviors are the pursuit of one's own interest at the
+            expense of the success and growth of the Steem community that can
+            benefit all community members.
+          </p>
+          <br />
         </>
       ),
       answers: [{ text: "", goto: 11 }],
@@ -232,7 +242,7 @@ export const survey: Survey = {
               text: (
                 <>
                   (a) Please provide an estimate of the number of people out of
-                  100 <b>before Tron's takeover</b>:
+                  100 <b> before Tron's takeover</b>:
                 </>
               ),
             },
@@ -241,7 +251,7 @@ export const survey: Survey = {
               text: (
                 <>
                   (b) Please provide an estimate of the number of people out of
-                  100 <b>after Tron's takeover</b>:
+                  100 <b> after Tron's takeover</b>:
                 </>
               ),
             },
@@ -253,7 +263,7 @@ export const survey: Survey = {
               text: (
                 <>
                   (2) Please provide an estimate of the number of people out of
-                  100 <b>before Tron's takeover</b>:
+                  100 <b> before Tron's takeover</b>:
                 </>
               ),
             },
@@ -262,7 +272,7 @@ export const survey: Survey = {
               text: (
                 <>
                   (2) Please provide an estimate of the number of people out of
-                  100 <b>after Tron's takeover</b>:
+                  100 <b> after Tron's takeover</b>:
                 </>
               ),
             },
@@ -271,7 +281,16 @@ export const survey: Survey = {
     },
     {
       type: "single_choice", // 11
-      text: <>Considering that cooperation is defined as the pursuit of the success and growth of the Steem community that can benefit all community members rather than pursuit of one's own interest at the expense of other Steem members' interests. Have you observed <b>decreased cooperation</b> among Steem members following Tron's takeover? </>,
+      text: (
+        <>
+          Considering that cooperation is defined as the pursuit of the success
+          and growth of the Steem community that can benefit all community
+          members rather than pursuit of one's own interest at the expense of
+          other Steem members' interests. Have you observed{" "}
+          <b> decreased cooperation</b> among Steem members following Tron's
+          takeover?
+        </>
+      ),
       answers: [
         { text: "Yes", goto: 12 },
         { text: "No", goto: 13 },
@@ -369,7 +388,7 @@ export const survey: Survey = {
             text: (
               <>
                 (1) Consider a scenario where
-                <b>90%</b> of the Steem community members are actively
+                <b> 90% </b> of the Steem community members are actively
                 participating cooperative behaviors that contribute to the
                 growth and success of the Steem community and benefit all Steem
                 members. In this context, would you be inclined to engage in
@@ -382,12 +401,12 @@ export const survey: Survey = {
             type: "single_choice",
             text: (
               <>
-                (2) Now, envision a different scenario where
-                only <b>10%</b> of the Steem community members are actively
-                participating cooperative behaviors that contribute to the
-                growth and success of the Steem community and benefit all Steem
-                members. In this context, would you be inclined to engage in
-                cooperative behaviors as well?
+                (2) Now, envision a different scenario where only <b> 10% </b>{" "}
+                of the Steem community members are actively participating
+                cooperative behaviors that contribute to the growth and success
+                of the Steem community and benefit all Steem members. In this
+                context, would you be inclined to engage in cooperative
+                behaviors as well?
               </>
             ),
             answers: [{ text: "Yes" }, { text: "No" }],

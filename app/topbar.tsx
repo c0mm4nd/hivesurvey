@@ -3,7 +3,7 @@
 import { CloseIcon, HamburgerIcon, AddIcon } from "@chakra-ui/icons";
 import { useColorModeValue, Flex, IconButton, HStack, Button, Menu, MenuButton, Avatar, MenuList, MenuItem, MenuDivider, Stack, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, InputGroup, InputLeftAddon, ModalFooter, useDisclosure, Box, Link, Input, useToast } from "@chakra-ui/react";
 import { KeychainSDK, KeychainKeyTypes, Login } from "keychain-sdk";
-import { useContext, useCallback, useState, ReactNode } from "react";
+import { useContext, useCallback, useState, ReactNode, useImperativeHandle, forwardRef, Ref } from "react";
 import { User, UserContext } from "./providers";
 
 // const Links = ['Dashboard', 'Projects', 'Team'];
@@ -23,7 +23,11 @@ const NavLink = ({ children }: { children: ReactNode }) => (
   </Link>
 );
 
-export default function Topbar() {
+export type TopbarHandler = {
+  onOpenLogin: () => void,
+} 
+
+function Topbar(props: unknown, ref: Ref<any>) {
   const toast = useToast()
   const { user, setUser } = useContext(UserContext);
 
@@ -72,6 +76,12 @@ export default function Topbar() {
   const [inputUsername, setInputUsername] = useState<string>("");
   const { isOpen: isMenuOpen, onOpen: onMenuOpen, onClose: onMenuClose } = useDisclosure();
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure();
+
+  useImperativeHandle(ref, () => ({
+    onOpenLogin: () => {
+      onModalOpen();
+    },
+  }));
 
   return <>
     <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -140,11 +150,10 @@ export default function Topbar() {
       ) : null}
     </Box>
 
-    <Modal isOpen={isModalOpen} onClose={onModalClose}>
+    <Modal isOpen={isModalOpen} onClose={onModalClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Login with Keychain</ModalHeader>
-        <ModalCloseButton />
         <ModalBody>
           <Link href="https://hive-keychain.com/">Hive Keychain</Link> extension is required
           <InputGroup>
@@ -168,9 +177,9 @@ export default function Topbar() {
         </ModalBody>
 
         <ModalFooter>
-          <Button mr={3} onClick={onModalClose}>
+          {/* <Button mr={3} onClick={onModalClose}>
             Close
-          </Button>
+          </Button> */}
           <Button colorScheme='blue' onClick={async () => {
             await keychainLogin(inputUsername, "hivesurvey login");
 
@@ -181,3 +190,5 @@ export default function Topbar() {
 
   </>
 }
+
+export default forwardRef(Topbar)

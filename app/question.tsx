@@ -288,7 +288,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
           return Object.entries(question.subQuestions).map(
             ([text, questions], index) => {
               return (
-                <>
+                <div style={{padding: "1rem"}}>
                   <FormLabel>
                     <Markdown>{text}</Markdown>
                   </FormLabel>
@@ -298,7 +298,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                     switch (q.type) {
                       case "single_choice":
                         return (
-                          <>
+                          <div style={{padding: "1rem"}}>
                             <FormLabel>{q.text}</FormLabel>
                             <Select
                               placeholder={"Select one"}
@@ -310,7 +310,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 console.log(answerElem);
                                 if (answerElem) {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text] = answerElem.text;
+                                  newAnswer[q.text.toString()] = answerElem.text;
                                   setAnswer(newAnswer);
                                   doneRef.current[
                                     index.toString() + i.toString()
@@ -326,7 +326,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   if (setRestrict) setRestrict(true);
                                 } else {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text] = null;
+                                  newAnswer[q.text.toString()] = null;
                                   setAnswer(newAnswer);
                                   props.setNext(0);
                                   if (setRestrict) setRestrict(false);
@@ -339,11 +339,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 </option>
                               ))}
                             </Select>
-                          </>
+                          </div>
                         );
                       case "text":
                         return (
-                          <>
+                          <div style={{padding: "1rem"}}>
                             <FormLabel>
                               <Markdown>{text}</Markdown>
                             </FormLabel>
@@ -354,7 +354,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 // console.log(event)
                                 if (event.target.value) {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text] = event.target.value;
+                                  newAnswer[q.text.toString()] = event.target.value;
                                   setAnswer(newAnswer);
 
                                   doneRef.current[
@@ -376,13 +376,13 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 if (setRestrict) setRestrict(true);
                               }}
                             />
-                          </>
+                          </div>
                         );
                       case "number":
                         return (
-                          <>
+                          <div style={{padding: "1rem"}}>
                             <FormLabel>
-                              <Markdown>{q.text}</Markdown>
+                              {q.text}
                             </FormLabel>
                             <Input
                               type="number"
@@ -409,7 +409,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   }
 
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text] = num;
+                                  newAnswer[q.text.toString()] = num;
                                   setAnswer(newAnswer);
 
                                   doneRef.current[
@@ -431,11 +431,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 if (setRestrict) setRestrict(true);
                               }}
                             />
-                          </>
+                          </div>
                         );
                     }
                   })}
-                </>
+                </div>
               );
             }
           );
