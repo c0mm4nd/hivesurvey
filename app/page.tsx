@@ -100,7 +100,7 @@ export default function Home() {
             </Button>
             <Button colorScheme="blue" mr={3} onClick={()=>{
               onClose()
-              topbarRef.current?.onOpenLogin()
+              // topbarRef.current?.onOpenLogin()
             }}>
               I understand and agree to participate in this online survey
             </Button>
