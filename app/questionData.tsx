@@ -225,7 +225,7 @@ export const survey: Survey = {
       ),
       answers: [{ text: "", goto: 11 }],
       subQuestions: {
-        "(1) How many members you believe are engaging in **cooperative behaviors**?":
+        "(1) How many members you believe are engaging in cooperative behaviors?":
           [
             {
               type: "number",
@@ -369,11 +369,11 @@ export const survey: Survey = {
             text: (
               <>
                 (1) Consider a scenario where
-                <b>90% of the Steem community members</b> are actively
+                <b>90%</b> of the Steem community members are actively
                 participating cooperative behaviors that contribute to the
                 growth and success of the Steem community and benefit all Steem
                 members. In this context, would you be inclined to engage in
-                cooperative behaviors as well? Yes/No
+                cooperative behaviors as well?
               </>
             ),
             answers: [{ text: "Yes" }, { text: "No" }],
@@ -383,11 +383,11 @@ export const survey: Survey = {
             text: (
               <>
                 (2) Now, envision a different scenario where
-                <b>only 10% of the Steem community</b> members are actively
+                only <b>10%</b> of the Steem community members are actively
                 participating cooperative behaviors that contribute to the
                 growth and success of the Steem community and benefit all Steem
                 members. In this context, would you be inclined to engage in
-                cooperative behaviors as well? Yes/No
+                cooperative behaviors as well?
               </>
             ),
             answers: [{ text: "Yes" }, { text: "No" }],
