@@ -155,7 +155,7 @@ function Topbar(props: unknown, ref: Ref<any>) {
       <ModalContent>
         <ModalHeader>Login with Keychain</ModalHeader>
         <ModalBody>
-          <Link href="https://hive-keychain.com/">Hive Keychain</Link> extension is required
+          <Link href="https://hive-keychain.com/">Hive Keychain</Link> or <Link href="https://github.com/MattyIce/steem-keychain">STEEM Keychain</Link> extension is required
           <InputGroup>
             <InputLeftAddon children='@' />
             <Input type='text' placeholder='username' value={inputUsername} onKeyDown={async (e) => {
