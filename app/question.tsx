@@ -143,8 +143,13 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 // console.log(answerElem)
                 if (answerElem) {
                   if (answerElem.input) {
+                    // when require input
                     selected.push(answerElem.text + inputValue);
-                    props.setNext(answerElem.goto);
+                    if (inputValue) {
+                      props.setNext(answerElem.goto);
+                    } else {
+                      props.setNext(0); // disbale next when no input
+                    }
                   } else {
                     selected.push(answerElem.text);
                     props.setNext(answerElem.goto);
