@@ -184,7 +184,7 @@ const Form = () => {
                 onClick={() => {
                   setStep(0);
                   setProgress(100 / survey.questions.length);
-                  setNext(0);
+                  setNext(1);
                 }}
                 isDisabled={step === 0}
                 colorScheme="teal"
