@@ -1,4 +1,5 @@
 import { Heading, Text } from "@chakra-ui/react";
+import Link from "next/link";
 import next from "next/types";
 import React, { ReactElement } from "react";
 
@@ -34,7 +35,7 @@ export interface Survey {
 export interface SurveyQuestion {
   type:
     | "single_choice"
-    | "multiple_choice"
+    | "multiple_choice_with_input" | "single_choice_with_input"
     | "text"
     | "rating"
     | "compound"
@@ -81,7 +82,19 @@ export const survey: Survey = {
     },
     {
       type: "single_choice", // 2
-      text: "On February 14, 2020, Tron's takeover of Steemit, Inc. was announced. This takeover has a substantial impact on the Steem community. Before proceeding, you may learn more about this event at https://cryptobriefing.com/steemit-migrate-tron-blockchain-year/ Were you aware of this takeover event and its subsequent developments before the hard fork on March 20, 2020?",
+      text: (
+        <>
+          On February 14, 2020, Tron's takeover of Steemit, Inc. was announced.
+          This takeover has a substantial impact on the Steem community. Before
+          proceeding, you may learn more about this event at
+          <Link href="https://cryptobriefing.com/steemit-migrate-tron-blockchain-year/">
+            Steemit Migrating to TRON Blockchain, New Partnership
+          </Link>
+          <br />
+          <br /> Were you aware of this takeover event and its subsequent
+          developments before the hard fork on March 20, 2020?
+        </>
+      ),
       answers: [
         { text: "Yes", goto: 3 },
         { text: "No (If 'No', this marks the end of the survey.)", goto: -1 },
@@ -97,11 +110,11 @@ export const survey: Survey = {
       text: "Please rate the appropriateness of Tron's takeover on February 14, 2020, based on your opinion.",
       range: [1, 5],
       answers: [
-        { text: "1 = Completely appropriate", goto: 5 },
-        { text: "2 = Appropriate", goto: 5 },
+        { text: "1 = Completely inappropriate", goto: 5 },
+        { text: "2 = Inappropriate", goto: 5 },
         { text: "3 = Neutral", goto: 5 },
-        { text: "4 = Inappropriate", goto: 5 },
-        { text: "5 = Completely inappropriate", goto: 5 },
+        { text: "4 = Appropriate", goto: 5 },
+        { text: "5 = Completely appropriate", goto: 5 },
       ],
     },
     {
@@ -122,7 +135,7 @@ export const survey: Survey = {
       answers: [{ text: "", goto: 7 }],
     },
     {
-      type: "multiple_choice", // 7
+      type: "multiple_choice_with_input", // 7
       text: "Cooperative behaviors are the pursuit of the success and growth of the Steem community that can benefit all community members. Which of the following behaviors do you believe is a cooperative behavior? (Please select all that apply.)",
       answers: [
         { text: "A. Posting high-quality content (e.g., articles)", goto: 8 },
@@ -137,7 +150,7 @@ export const survey: Survey = {
       ],
     },
     {
-      type: "multiple_choice", // 8
+      type: "multiple_choice_with_input", // 8
       text: "Opportunistic behaviors are the pursuit of one's own interest at the expense of the success and growth of the Steem community that can benefit all community members. Which of the following behaviors do you believe is an opportunistic behavior? (Please select all that apply.)",
       answers: [
         { text: "A. Posting high-quality content (e.g., articles)", goto: 9 },
@@ -160,10 +173,9 @@ export const survey: Survey = {
             the Steem community that can benefit all community members.
           </p>
           <br />
-          <p >
+          <p>
             Opportunistic behaviors are the pursuit of one's own interest at the
-            expense of the success and growth of the Steem community that can
-            benefit all community members.
+            expense of the success and growth of the Steem community.
           </p>
           <br />
         </>
@@ -220,15 +232,14 @@ export const survey: Survey = {
       type: "compound", // 10
       text: (
         <>
-          <p >
+          <p>
             Cooperative behaviors are the pursuit of the success and growth of
             the Steem community that can benefit all community members.
           </p>
           <br />
-          <p >
+          <p>
             Opportunistic behaviors are the pursuit of one's own interest at the
-            expense of the success and growth of the Steem community that can
-            benefit all community members.
+            expense of the success and growth of the Steem community.
           </p>
           <br />
         </>
@@ -262,7 +273,7 @@ export const survey: Survey = {
               type: "number",
               text: (
                 <>
-                  (2) Please provide an estimate of the number of people out of
+                  (a) Please provide an estimate of the number of people out of
                   100 <b> before Tron's takeover</b>:
                 </>
               ),
@@ -271,7 +282,7 @@ export const survey: Survey = {
               type: "number",
               text: (
                 <>
-                  (2) Please provide an estimate of the number of people out of
+                  (b) Please provide an estimate of the number of people out of
                   100 <b> after Tron's takeover</b>:
                 </>
               ),
@@ -286,9 +297,11 @@ export const survey: Survey = {
           Considering that cooperation is defined as the pursuit of the success
           and growth of the Steem community that can benefit all community
           members rather than pursuit of one's own interest at the expense of
-          other Steem members' interests. Have you observed{" "}
-          <b> decreased cooperation</b> among Steem members following Tron's
-          takeover?
+          other Steem members' interests.
+          <br />
+          <br />
+          Have you observed <b> decreased cooperation</b> among Steem members
+          following Tron's takeover?
         </>
       ),
       answers: [
@@ -297,7 +310,7 @@ export const survey: Survey = {
       ],
     },
     {
-      type: "multiple_choice", // 12
+      type: "multiple_choice_with_input", // 12
       text: "You answered yes to decreased cooperation. What do you believe are the primary reasons for this decrease? (Select all that apply)",
       answers: [
         {
@@ -355,7 +368,7 @@ export const survey: Survey = {
       ],
     },
     {
-      type: "multiple_choice", // 15
+      type: "single_choice_with_input", // 15
       text: "If you have NOT purchased votes from others, please select the most applicable reason below:",
       answers: [
         {

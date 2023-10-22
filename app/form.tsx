@@ -182,9 +182,11 @@ const Form = () => {
             <Flex>
               <Button
                 onClick={() => {
-                  setStep(0);
-                  setProgress(100 / survey.questions.length);
-                  setNext(1);
+                  const newStep = step - 1;
+                  const newNext = step;
+                  setStep(newStep);
+                  setProgress(newStep * 100 / survey.questions.length);
+                  setNext(newNext);
                 }}
                 isDisabled={step === 0}
                 colorScheme="teal"
@@ -192,7 +194,7 @@ const Form = () => {
                 w="7rem"
                 mr="5%"
               >
-                Reset
+                Previous Question
               </Button>
               <Button
                 w="7rem"
@@ -217,7 +219,7 @@ const Form = () => {
                 colorScheme="teal"
                 variant="outline"
               >
-                Next
+                Next Question
               </Button>
             </Flex>
             {next == 255 || next == -1 || next == survey.questions.length ? (

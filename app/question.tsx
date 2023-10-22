@@ -6,6 +6,8 @@ import {
   FormLabel,
   Heading,
   Input,
+  Radio,
+  RadioGroup,
   RangeSlider,
   RangeSliderFilledTrack,
   RangeSliderThumb,
@@ -45,7 +47,8 @@ export type QuestionCardRef = {
 
 export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
-  const [inputValue, setInputValue] = useState("");
+  // const [inputValue, setInputValue] = useState("");
+  const inputRef = useRef<string>("");
   const toast = useToast();
 
   useImperativeHandle(ref, () => ({
@@ -86,37 +89,49 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
             ))}
           </Select>
         );
-      case "multiple_choice":
-        const options = Object.entries(question.answers || []).map(([k, v]) => {
-          if (v.input) {
-            const [checked, setChecked] = useState(false);
-            return (
-              <>
-                <Checkbox
-                  key={`${k}_${v.text}`}
-                  isChecked={checked}
-                  value={v.text}
-                >
+      case "multiple_choice_with_input":
+        const checkOpts = Object.entries(question.answers || []).map(
+          ([k, v]) => {
+            if (v.input) {
+              const [checked, setChecked] = useState(false);
+              return (
+                <>
+                  <Checkbox
+                    key={`${k}_${v.text}`}
+                    isChecked={checked}
+                    value={v.text}
+                  >
+                    {v.text}
+                  </Checkbox>
+                  <Input
+                    type="text"
+                    value={inputRef.current}
+                    onChange={(val) => {
+                      // setInputValue(val.target.value);
+                      inputRef.current = val.target.value;
+
+                      let selected = { ...answer };
+                      if (val.target.value.length > 0) {
+                        selected.push(val.target.value);
+                      }
+
+                      setAnswer(selected);
+                      console.log(selected);
+
+                      setChecked(true);
+                    }}
+                  />
+                </>
+              );
+            } else {
+              return (
+                <Checkbox key={`${k}_${v.text}`} value={v.text}>
                   {v.text}
                 </Checkbox>
-                <Input
-                  type="text"
-                  value={inputValue}
-                  onChange={(val) => {
-                    setInputValue(val.target.value);
-                    setChecked(true);
-                  }}
-                />
-              </>
-            );
-          } else {
-            return (
-              <Checkbox key={`${k}_${v.text}`} value={v.text}>
-                {v.text}
-              </Checkbox>
-            );
+              );
+            }
           }
-        });
+        );
 
         return (
           <CheckboxGroup
@@ -144,8 +159,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 if (answerElem) {
                   if (answerElem.input) {
                     // when require input
-                    selected.push(answerElem.text + inputValue);
-                    if (inputValue) {
+                    if (inputRef.current.length > 0) {
                       props.setNext(answerElem.goto);
                     } else {
                       props.setNext(0); // disbale next when no input
@@ -156,6 +170,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   }
                 }
               }
+              // add input to the end
+              if (inputRef.current.length > 0) {
+                selected.push(inputRef.current);
+              }
+
               setAnswer(selected);
               console.log(selected);
 
@@ -163,9 +182,91 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
             }}
           >
             <Stack spacing={[1, 5]} direction={["column"]}>
-              {options}
+              {checkOpts}
             </Stack>
           </CheckboxGroup>
+        );
+      case "single_choice_with_input":
+        const radioOpts = Object.entries(question.answers || []).map(
+          ([k, v]) => {
+            if (v.input) {
+              const [checked, setChecked] = useState(false);
+              return (
+                <>
+                  <Radio
+                    key={`${k}_${v.text}`}
+                    isChecked={checked}
+                    value={v.text}
+                  >
+                    {v.text}
+                  </Radio>
+                  <Input
+                    type="text"
+                    value={inputRef.current}
+                    onChange={(val) => {
+                      // setInputValue(val.target.value);
+                      inputRef.current = val.target.value;
+
+                      let selected = { ...answer };
+                      if (val.target.value.length > 0) {
+                        selected.push(val.target.value);
+                      }
+
+                      setAnswer(selected);
+                      console.log(selected);
+
+                      setChecked(true);
+                    }}
+                  />
+                </>
+              );
+            } else {
+              return (
+                <Radio key={`${k}_${v.text}`} value={v.text}>
+                  {v.text}
+                </Radio>
+              );
+            }
+          }
+        );
+
+        return (
+          <RadioGroup
+            // defaultValue={[]}
+            onChange={(value) => {
+              const answerElem = question.answers.find((answer) => {
+                return answer.text == value;
+              });
+              // const answerElem = question.answers[value]
+              // console.log(answerElem)
+
+              let answer: string;
+              // console.log(value)
+              if (answerElem) {
+                if (answerElem.input) {
+                  // when require input
+                  answer = answerElem.text + inputRef.current;
+                  if (inputRef.current.length > 0) {
+                    props.setNext(answerElem.goto);
+                  } else {
+                    props.setNext(0); // disbale next when no input
+                  }
+                } else {
+                  answer = answerElem.text;
+                  props.setNext(answerElem.goto);
+                }
+
+                setAnswer(answer);
+                console.log(answer);
+
+                if (setRestrict) setRestrict(true);
+              }
+            }}
+          >
+            <Stack spacing={[1, 5]} direction={["column"]}>
+              {radioOpts}
+            </Stack>
+          </RadioGroup>
         );
       case "text":
         return (
@@ -293,7 +394,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
           return Object.entries(question.subQuestions).map(
             ([text, questions], index) => {
               return (
-                <div style={{padding: "1rem"}}>
+                <div style={{ padding: "1rem" }}>
                   <FormLabel>
                     <Markdown>{text}</Markdown>
                   </FormLabel>
@@ -303,7 +404,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                     switch (q.type) {
                       case "single_choice":
                         return (
-                          <div style={{padding: "1rem"}}>
+                          <div style={{ padding: "1rem" }}>
                             <FormLabel>{q.text}</FormLabel>
                             <Select
                               placeholder={"Select one"}
@@ -315,7 +416,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 console.log(answerElem);
                                 if (answerElem) {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text.toString()] = answerElem.text;
+                                  newAnswer[q.text.toString()] =
+                                    answerElem.text;
                                   setAnswer(newAnswer);
                                   doneRef.current[
                                     index.toString() + i.toString()
@@ -348,7 +450,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                         );
                       case "text":
                         return (
-                          <div style={{padding: "1rem"}}>
+                          <div style={{ padding: "1rem" }}>
                             <FormLabel>
                               <Markdown>{text}</Markdown>
                             </FormLabel>
@@ -359,7 +461,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 // console.log(event)
                                 if (event.target.value) {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text.toString()] = event.target.value;
+                                  newAnswer[q.text.toString()] =
+                                    event.target.value;
                                   setAnswer(newAnswer);
 
                                   doneRef.current[
@@ -385,10 +488,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                         );
                       case "number":
                         return (
-                          <div style={{padding: "1rem"}}>
-                            <FormLabel>
-                              {q.text}
-                            </FormLabel>
+                          <div style={{ padding: "1rem" }}>
+                            <FormLabel>{q.text}</FormLabel>
                             <Input
                               type="number"
                               placeholder={"Type your answer here"}

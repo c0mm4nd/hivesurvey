@@ -46,15 +46,14 @@ export default function Home() {
             Hong Kong.
             <br />
             The study centers around Steem community and seeks to delve into the
-            influence of social norms on cooperative behavior within
+            influence of social norms on cooperation within
             decentralized autonomous organizations (DAOs). If you complete all
             questions in this questionnaire,{" "}
             <b>
-              {" "}
               you will be entitled to a token reward in an equivalent amount of
               $1, which will be provided in either Hive or Steem
             </b>
-            . It will take about XX minutes to complete this questionnaire.
+            . It will take about 5-10 minutes to complete this questionnaire.
             Kindly be informed that only eligible members who successfully
             complete all questions will be eligible for the rewards. Individuals
             who do not meet the pre-defined eligibility criteria will not be
