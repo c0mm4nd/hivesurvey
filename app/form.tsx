@@ -163,17 +163,18 @@ const Form = () => {
             {survey.questions.map((question, index) => {
               // console.log("index", index, "step", step, "next", next);
 
-              return <div style={{display: index==step? "block": "none"}}>
-              <QuestionCard
-                question={question}
-                setNext={setNext}
-                key={index}
-                ref={(el) => {
-                  cardsRef.current[index] = el;
-                }}
-              ></QuestionCard>
-              </div>
-
+              return (
+                <div style={{ display: index == step ? "block" : "none" }}>
+                  <QuestionCard
+                    question={question}
+                    setNext={setNext}
+                    key={index}
+                    ref={(el) => {
+                      cardsRef.current[index] = el;
+                    }}
+                  ></QuestionCard>
+                </div>
+              );
             })}
           </FormControl>
         </Flex>
@@ -185,7 +186,7 @@ const Form = () => {
                   const newStep = step - 1;
                   const newNext = step;
                   setStep(newStep);
-                  setProgress(newStep * 100 / survey.questions.length);
+                  setProgress((newStep * 100) / survey.questions.length);
                   setNext(newNext);
                 }}
                 isDisabled={step === 0}
@@ -206,16 +207,17 @@ const Form = () => {
                   next == survey.questions.length // user == null
                 }
                 onClick={() => {
-                  setStep(next);
-
-                  if (next == -1 || next == 255) {
+                  const newStep = next;
+                  if (newStep == -1 || newStep == 255) {
                     setProgress(100);
                   } else {
-                    setProgress(((next + 1) * 100) / survey.questions.length);
+                    setProgress((newStep * 100) / survey.questions.length);
                   }
 
-                  setNext(0);
-                  
+                  const newNext = cardsRef.current[newStep]?.getPrivateNext();
+
+                  setStep(newStep);
+                  setNext(newNext || 0);
                 }}
                 colorScheme="teal"
                 variant="outline"

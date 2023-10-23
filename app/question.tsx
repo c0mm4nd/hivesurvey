@@ -47,11 +47,13 @@ interface QuestionCardProps {
 }
 
 export type QuestionCardRef = {
+  getPrivateNext: () => number;
   getAnswer: () => any;
 };
 
 export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
+  const [privateNext, setPrivateNext] = useState(0);
   const [inputValue, setInputValue] = useState("");
   const [inputDisabled, setInputDisabled] = useState(true);
   const [inputPlaceholder, setInputPlaceholder] = useState("");
@@ -61,6 +63,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   useImperativeHandle(ref, () => ({
     getAnswer: () => {
       return answer;
+    },
+    getPrivateNext: () => {
+      return privateNext;
     },
   }));
 
@@ -81,10 +86,12 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               if (answerElem) {
                 setAnswer(answerElem.text);
                 props.setNext(answerElem.goto);
+                setPrivateNext(answerElem.goto);
                 if (setRestrict) setRestrict(true);
               } else {
                 setAnswer(null);
                 props.setNext(0);
+                setPrivateNext(0);
                 if (setRestrict) setRestrict(false);
               }
             }}
@@ -132,6 +139,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                       });
 
                       props.setNext(answerElem?.goto || 0);
+                      setPrivateNext(answerElem?.goto || 0);
 
                       setChecked(true);
                     }}
@@ -159,6 +167,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
 
               if (values.length == 0) {
                 props.setNext(0);
+                setPrivateNext(0);
                 if (setRestrict) setRestrict(false);
                 return;
               }
@@ -187,9 +196,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                     enableInput = true;
 
                     props.setNext(0); // disbale next when no input
+                    setPrivateNext(0);
                   } else {
                     selected.push(answerElem.text);
                     props.setNext(answerElem.goto);
+                    setPrivateNext(answerElem.goto);
                   }
                 }
               }
@@ -200,7 +211,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 // if (inputValue.length > 0) {
                 //   selected.push(inputValue);
                 // }
-                setInputPlaceholder("please input your answer here")
+                setInputPlaceholder("please input your answer here");
               } else {
                 setInputValue("");
                 setInputDisabled(true); // disable edit and clear input
@@ -286,10 +297,12 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   //   props.setNext(answerElem.goto);
                   // } else {
                   props.setNext(0); // disbale next when no input
+                  setPrivateNext(0);
                   // }
                 } else {
                   answer = [answerElem.text];
                   props.setNext(answerElem.goto);
+                  setPrivateNext(answerElem.goto);
                 }
 
                 if (enableInput == true) {
@@ -298,7 +311,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   // if (inputValue.length > 0) {
                   //   selected.push(inputValue);
                   // }
-                  setInputPlaceholder("please input your answer here")
+                  setInputPlaceholder("please input your answer here");
                 } else {
                   setInputValue("");
                   setInputDisabled(true); // disable edit and clear input
@@ -325,6 +338,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               if (event.target.value) {
                 setAnswer(event.target.value);
                 props.setNext(question.answers[0].goto);
+                setPrivateNext(question.answers[0].goto);
               }
 
               if (setRestrict) setRestrict(true);
@@ -374,21 +388,23 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
             onChange={(valueAsString: string, valueAsNumber: number) => {
               // console.log(event)
               // if (valueAsNumber) {
-                // const num = parseInt(event.target.value);
-                if (valueAsNumber > 100 || valueAsNumber < 0) {
-                  toast({
-                    title: "Error",
-                    description: "Please enter a number between 0 and 100",
-                    status: "error",
-                    duration: 9000,
-                    isClosable: true,
-                  });
-                  props.setNext(0);
-                  return;
-                }
+              // const num = parseInt(event.target.value);
+              if (valueAsNumber > 100 || valueAsNumber < 0) {
+                toast({
+                  title: "Error",
+                  description: "Please enter a number between 0 and 100",
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                });
+                props.setNext(0);
+                setPrivateNext(0);
+                return;
+              }
 
-                setAnswer(valueAsNumber);
-                props.setNext(question.answers[0].goto);
+              setAnswer(valueAsNumber);
+              props.setNext(question.answers[0].goto);
+              setPrivateNext(question.answers[0].goto);
               // }
 
               if (setRestrict) setRestrict(true);
@@ -421,6 +437,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               if (answerElem) {
                 setAnswer(answerElem.text);
                 props.setNext(question.answers[0].goto || 0);
+                setPrivateNext(question.answers[0].goto || 0);
               }
 
               if (setRestrict) setRestrict(true);
@@ -482,6 +499,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   console.log(doneCount, allDoneCount);
                                   if (doneCount == allDoneCount) {
                                     props.setNext(question.answers[0].goto);
+                                    setPrivateNext(question.answers[0].goto);
                                   }
 
                                   if (setRestrict) setRestrict(true);
@@ -490,6 +508,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   newAnswer[q.text.toString()] = null;
                                   setAnswer(newAnswer);
                                   props.setNext(0);
+                                  setPrivateNext(0);
                                   if (setRestrict) setRestrict(false);
                                 }
                               }}
@@ -532,6 +551,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   );
                                   if (doneCount == allDoneCount) {
                                     props.setNext(question.answers[0].goto);
+                                    setPrivateNext(question.answers[0].goto);
                                   }
                                 }
 
@@ -550,44 +570,49 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                               max={100}
                               placeholder={"Type your answer here"}
                               key={index.toString() + i.toString()}
-                              onChange={(valueAsString: string, valueAsNumber: number) => {
+                              onChange={(
+                                valueAsString: string,
+                                valueAsNumber: number
+                              ) => {
                                 // console.log(event)
                                 // if (valueAsNumber !== null) {
-                                  // const num = parseInt(valueAsNumber);
-                                  if (valueAsNumber > 100 || valueAsNumber < 0) {
-                                    toast({
-                                      title: "Error",
-                                      description:
-                                        "Please enter a number between 0 and 100",
-                                      status: "error",
-                                      duration: 9000,
-                                      isClosable: true,
-                                    });
-                                    delete doneRef.current[
-                                      index.toString() + i.toString()
-                                    ];
-                                    props.setNext(0);
-                                    return;
-                                  }
-
-                                  let newAnswer = answer ?? {};
-                                  newAnswer[q.text.toString()] = valueAsNumber;
-                                  setAnswer(newAnswer);
-
-                                  doneRef.current[
+                                // const num = parseInt(valueAsNumber);
+                                if (valueAsNumber > 100 || valueAsNumber < 0) {
+                                  toast({
+                                    title: "Error",
+                                    description:
+                                      "Please enter a number between 0 and 100",
+                                    status: "error",
+                                    duration: 9000,
+                                    isClosable: true,
+                                  });
+                                  delete doneRef.current[
                                     index.toString() + i.toString()
-                                  ] = true;
-                                  const doneCount = Object.entries(
-                                    doneRef.current
-                                  ).length;
-                                  console.log(
-                                    doneRef.current,
-                                    doneCount,
-                                    allDoneCount
-                                  );
-                                  if (doneCount == allDoneCount) {
-                                    props.setNext(question.answers[0].goto);
-                                  }
+                                  ];
+                                  props.setNext(0);
+                                  setPrivateNext(0);
+                                  return;
+                                }
+
+                                let newAnswer = answer ?? {};
+                                newAnswer[q.text.toString()] = valueAsNumber;
+                                setAnswer(newAnswer);
+
+                                doneRef.current[
+                                  index.toString() + i.toString()
+                                ] = true;
+                                const doneCount = Object.entries(
+                                  doneRef.current
+                                ).length;
+                                console.log(
+                                  doneRef.current,
+                                  doneCount,
+                                  allDoneCount
+                                );
+                                if (doneCount == allDoneCount) {
+                                  props.setNext(question.answers[0].goto);
+                                  setPrivateNext(question.answers[0].goto);
+                                }
                                 // }
 
                                 if (setRestrict) setRestrict(true);
