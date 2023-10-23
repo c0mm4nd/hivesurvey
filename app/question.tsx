@@ -6,6 +6,11 @@ import {
   FormLabel,
   Heading,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Radio,
   RadioGroup,
   RangeSlider,
@@ -49,6 +54,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
   const [inputValue, setInputValue] = useState("");
   const [inputDisabled, setInputDisabled] = useState(true);
+  const [inputWarn, setInputWarn] = useState(false);
   const toast = useToast();
 
   useImperativeHandle(ref, () => ({
@@ -185,10 +191,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 //   selected.push(inputValue);
                 // }
               } else {
-                setInputValue("")
+                setInputValue("");
                 setInputDisabled(true); // disable edit and clear input
               }
-
 
               setAnswer(selected);
               console.log(selected);
@@ -263,7 +268,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 if (answerElem.input) {
                   // when require input
                   answer = [answerElem.text, inputValue]; // inputRef.current;
-                  enableInput = true
+                  enableInput = true;
                   // if (inputRef.current.length > 0) {
                   if (inputValue.length > 0) {
                     props.setNext(answerElem.goto);
@@ -275,7 +280,6 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   props.setNext(answerElem.goto);
                 }
 
-
                 if (enableInput == true) {
                   setInputDisabled(false); // allow edit
                   // // add input to the end
@@ -283,7 +287,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   //   selected.push(inputValue);
                   // }
                 } else {
-                  setInputValue("")
+                  setInputValue("");
                   setInputDisabled(true); // disable edit and clear input
                 }
 
@@ -349,16 +353,16 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
       //   </RangeSlider>
       case "number":
         return (
-          <Input
-            type="number"
+          <NumberInput
+            // type="number"
             min={0}
             max={100}
             placeholder={"Type your answer here"}
-            onChange={(event) => {
+            onChange={(valueAsString: string, valueAsNumber: number) => {
               // console.log(event)
-              if (event.target.value) {
-                const num = parseInt(event.target.value);
-                if (num > 100 || num < 0) {
+              // if (valueAsNumber) {
+                // const num = parseInt(event.target.value);
+                if (valueAsNumber > 100 || valueAsNumber < 0) {
                   toast({
                     title: "Error",
                     description: "Please enter a number between 0 and 100",
@@ -370,13 +374,19 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   return;
                 }
 
-                setAnswer(num);
+                setAnswer(valueAsNumber);
                 props.setNext(question.answers[0].goto);
-              }
+              // }
 
               if (setRestrict) setRestrict(true);
             }}
-          />
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
         );
       case "rating":
         const [sliderValue, setSliderValue] = React.useState(
@@ -521,15 +531,17 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                         return (
                           <div style={{ padding: "1rem" }}>
                             <FormLabel>{q.text}</FormLabel>
-                            <Input
-                              type="number"
+                            <NumberInput
+                              // type="number"
+                              min={0}
+                              max={100}
                               placeholder={"Type your answer here"}
                               key={index.toString() + i.toString()}
-                              onChange={(event) => {
+                              onChange={(valueAsString: string, valueAsNumber: number) => {
                                 // console.log(event)
-                                if (event.target.value) {
-                                  const num = parseInt(event.target.value);
-                                  if (num > 100 || num < 0) {
+                                // if (valueAsNumber !== null) {
+                                  // const num = parseInt(valueAsNumber);
+                                  if (valueAsNumber > 100 || valueAsNumber < 0) {
                                     toast({
                                       title: "Error",
                                       description:
@@ -546,7 +558,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   }
 
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text.toString()] = num;
+                                  newAnswer[q.text.toString()] = valueAsNumber;
                                   setAnswer(newAnswer);
 
                                   doneRef.current[
@@ -563,11 +575,17 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   if (doneCount == allDoneCount) {
                                     props.setNext(question.answers[0].goto);
                                   }
-                                }
+                                // }
 
                                 if (setRestrict) setRestrict(true);
                               }}
-                            />
+                            >
+                              <NumberInputField />
+                              <NumberInputStepper>
+                                <NumberIncrementStepper />
+                                <NumberDecrementStepper />
+                              </NumberInputStepper>
+                            </NumberInput>
                           </div>
                         );
                     }
