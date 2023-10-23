@@ -215,6 +215,7 @@ const Form = () => {
                   }
 
                   setNext(0);
+                  
                 }}
                 colorScheme="teal"
                 variant="outline"

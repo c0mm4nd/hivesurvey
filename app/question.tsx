@@ -54,6 +54,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
   const [inputValue, setInputValue] = useState("");
   const [inputDisabled, setInputDisabled] = useState(true);
+  const [inputPlaceholder, setInputPlaceholder] = useState("");
   const [inputWarn, setInputWarn] = useState(false);
   const toast = useToast();
 
@@ -113,6 +114,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                     type="text"
                     value={inputValue}
                     disabled={inputDisabled}
+                    placeholder={inputPlaceholder}
                     onChange={(val) => {
                       setInputValue(val.target.value);
                       // inputRef.current = val.target.value;
@@ -124,6 +126,12 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
 
                       setAnswer(selected);
                       console.log(selected);
+
+                      const answerElem = question.answers.find((answer) => {
+                        return answer.input != null;
+                      });
+
+                      props.setNext(answerElem?.goto || 0);
 
                       setChecked(true);
                     }}
@@ -170,13 +178,15 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   if (answerElem.input) {
                     // when require input
                     // if (inputRef.current.length > 0) {
-                    if (inputValue.length > 0) {
-                      props.setNext(answerElem.goto);
-                    } else {
-                      props.setNext(0); // disbale next when no input
-                    }
+                    // if (inputValue.length > 0) {
+                    //   props.setNext(answerElem.goto);
+                    // } else {
+                    //   props.setNext(0); // disbale next when no input
+                    // }
 
                     enableInput = true;
+
+                    props.setNext(0); // disbale next when no input
                   } else {
                     selected.push(answerElem.text);
                     props.setNext(answerElem.goto);
@@ -190,6 +200,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 // if (inputValue.length > 0) {
                 //   selected.push(inputValue);
                 // }
+                setInputPlaceholder("please input your answer here")
               } else {
                 setInputValue("");
                 setInputDisabled(true); // disable edit and clear input
@@ -224,6 +235,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                     type="text"
                     value={inputValue}
                     disabled={inputDisabled}
+                    placeholder={inputPlaceholder}
                     onChange={(val) => {
                       setInputValue(val.target.value);
                       // inputRef.current = val.target.value;
@@ -270,11 +282,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   answer = [answerElem.text, inputValue]; // inputRef.current;
                   enableInput = true;
                   // if (inputRef.current.length > 0) {
-                  if (inputValue.length > 0) {
-                    props.setNext(answerElem.goto);
-                  } else {
-                    props.setNext(0); // disbale next when no input
-                  }
+                  // if (inputValue.length > 0) {
+                  //   props.setNext(answerElem.goto);
+                  // } else {
+                  props.setNext(0); // disbale next when no input
+                  // }
                 } else {
                   answer = [answerElem.text];
                   props.setNext(answerElem.goto);
@@ -286,6 +298,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   // if (inputValue.length > 0) {
                   //   selected.push(inputValue);
                   // }
+                  setInputPlaceholder("please input your answer here")
                 } else {
                   setInputValue("");
                   setInputDisabled(true); // disable edit and clear input
