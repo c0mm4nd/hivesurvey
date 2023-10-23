@@ -55,7 +55,6 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
   const [privateNext, setPrivateNext] = useState(0);
   const [inputValue, setInputValue] = useState("");
-  const [inputDisabled, setInputDisabled] = useState(true);
   const [inputPlaceholder, setInputPlaceholder] = useState("");
   const [inputWarn, setInputWarn] = useState(false);
   const toast = useToast();
@@ -120,7 +119,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   <Input
                     type="text"
                     value={inputValue}
-                    disabled={inputDisabled}
+                    disabled={!checked}
                     placeholder={inputPlaceholder}
                     onChange={(val) => {
                       setInputValue(val.target.value);
@@ -134,14 +133,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                       setAnswer(selected);
                       console.log(selected);
 
-                      const answerElem = question.answers.find((answer) => {
-                        return answer.input != null;
-                      });
-
-                      props.setNext(answerElem?.goto || 0);
-                      setPrivateNext(answerElem?.goto || 0);
-
-                      setChecked(true);
+                      props.setNext(v.goto);
+                      setPrivateNext(v.goto);
                     }}
                   />
                 </>
@@ -206,7 +199,6 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               }
 
               if (enableInput == true) {
-                setInputDisabled(false); // allow edit
                 // // add input to the end
                 // if (inputValue.length > 0) {
                 //   selected.push(inputValue);
@@ -214,7 +206,6 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 setInputPlaceholder("please input your answer here");
               } else {
                 setInputValue("");
-                setInputDisabled(true); // disable edit and clear input
               }
 
               setAnswer(selected);
@@ -245,7 +236,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   <Input
                     type="text"
                     value={inputValue}
-                    disabled={inputDisabled}
+                    disabled={!checked}
                     placeholder={inputPlaceholder}
                     onChange={(val) => {
                       setInputValue(val.target.value);
@@ -259,7 +250,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                       setAnswer(selected);
                       console.log(selected);
 
-                      setChecked(true);
+                      props.setNext(v.goto);
+                      setPrivateNext(v.goto);
                     }}
                   />
                 </>
@@ -306,7 +298,6 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 }
 
                 if (enableInput == true) {
-                  setInputDisabled(false); // allow edit
                   // // add input to the end
                   // if (inputValue.length > 0) {
                   //   selected.push(inputValue);
@@ -314,7 +305,6 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   setInputPlaceholder("please input your answer here");
                 } else {
                   setInputValue("");
-                  setInputDisabled(true); // disable edit and clear input
                 }
 
                 setAnswer(answer);
