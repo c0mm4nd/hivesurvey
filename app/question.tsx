@@ -47,8 +47,8 @@ export type QuestionCardRef = {
 
 export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
   const [answer, setAnswer] = useState<any>(null);
-  // const [inputValue, setInputValue] = useState("");
-  const inputRef = useRef<string>("");
+  const [inputValue, setInputValue] = useState("");
+  const [inputDisabled, setInputDisabled] = useState(true);
   const toast = useToast();
 
   useImperativeHandle(ref, () => ({
@@ -105,10 +105,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   </Checkbox>
                   <Input
                     type="text"
-                    value={inputRef.current}
+                    value={inputValue}
+                    disabled={inputDisabled}
                     onChange={(val) => {
-                      // setInputValue(val.target.value);
-                      inputRef.current = val.target.value;
+                      setInputValue(val.target.value);
+                      // inputRef.current = val.target.value;
 
                       let selected = { ...answer };
                       if (val.target.value.length > 0) {
@@ -149,6 +150,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               }
 
               let selected = [] as any[];
+
+              let enableInput = false;
+
               for (const value of values) {
                 // console.log(value)
                 const answerElem = question.answers.find((answer) => {
@@ -159,21 +163,32 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 if (answerElem) {
                   if (answerElem.input) {
                     // when require input
-                    if (inputRef.current.length > 0) {
+                    // if (inputRef.current.length > 0) {
+                    if (inputValue.length > 0) {
                       props.setNext(answerElem.goto);
                     } else {
                       props.setNext(0); // disbale next when no input
                     }
+
+                    enableInput = true;
                   } else {
                     selected.push(answerElem.text);
                     props.setNext(answerElem.goto);
                   }
                 }
               }
-              // add input to the end
-              if (inputRef.current.length > 0) {
-                selected.push(inputRef.current);
+
+              if (enableInput == true) {
+                setInputDisabled(false); // allow edit
+                // // add input to the end
+                // if (inputValue.length > 0) {
+                //   selected.push(inputValue);
+                // }
+              } else {
+                setInputValue("")
+                setInputDisabled(true); // disable edit and clear input
               }
+
 
               setAnswer(selected);
               console.log(selected);
@@ -202,10 +217,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   </Radio>
                   <Input
                     type="text"
-                    value={inputRef.current}
+                    value={inputValue}
+                    disabled={inputDisabled}
                     onChange={(val) => {
-                      // setInputValue(val.target.value);
-                      inputRef.current = val.target.value;
+                      setInputValue(val.target.value);
+                      // inputRef.current = val.target.value;
 
                       let selected = { ...answer };
                       if (val.target.value.length > 0) {
@@ -240,20 +256,35 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               // const answerElem = question.answers[value]
               // console.log(answerElem)
 
-              let answer: string;
+              let answer: string[];
+              let enableInput = false;
               // console.log(value)
               if (answerElem) {
                 if (answerElem.input) {
                   // when require input
-                  answer = answerElem.text + inputRef.current;
-                  if (inputRef.current.length > 0) {
+                  answer = [answerElem.text, inputValue]; // inputRef.current;
+                  enableInput = true
+                  // if (inputRef.current.length > 0) {
+                  if (inputValue.length > 0) {
                     props.setNext(answerElem.goto);
                   } else {
                     props.setNext(0); // disbale next when no input
                   }
                 } else {
-                  answer = answerElem.text;
+                  answer = [answerElem.text];
                   props.setNext(answerElem.goto);
+                }
+
+
+                if (enableInput == true) {
+                  setInputDisabled(false); // allow edit
+                  // // add input to the end
+                  // if (inputValue.length > 0) {
+                  //   selected.push(inputValue);
+                  // }
+                } else {
+                  setInputValue("")
+                  setInputDisabled(true); // disable edit and clear input
                 }
 
                 setAnswer(answer);

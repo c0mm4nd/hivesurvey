@@ -194,7 +194,7 @@ const Form = () => {
                 w="7rem"
                 mr="5%"
               >
-                Previous Question
+                Previous
               </Button>
               <Button
                 w="7rem"
@@ -219,7 +219,7 @@ const Form = () => {
                 colorScheme="teal"
                 variant="outline"
               >
-                Next Question
+                Next
               </Button>
             </Flex>
             {next == 255 || next == -1 || next == survey.questions.length ? (

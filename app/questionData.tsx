@@ -35,7 +35,8 @@ export interface Survey {
 export interface SurveyQuestion {
   type:
     | "single_choice"
-    | "multiple_choice_with_input" | "single_choice_with_input"
+    | "multiple_choice_with_input"
+    | "single_choice_with_input"
     | "text"
     | "rating"
     | "compound"
@@ -85,14 +86,9 @@ export const survey: Survey = {
       text: (
         <>
           On February 14, 2020, Tron's takeover of Steemit, Inc. was announced.
-          This takeover has a substantial impact on the Steem community. Before
-          proceeding, you may learn more about this event at
-          <Link href="https://cryptobriefing.com/steemit-migrate-tron-blockchain-year/">
-            Steemit Migrating to TRON Blockchain, New Partnership
-          </Link>
-          <br />
-          <br /> Were you aware of this takeover event and its subsequent
-          developments before the hard fork on March 20, 2020?
+          This takeover has a substantial impact on the Steem community. Were
+          you aware of this takeover event and its subsequent developments
+          before the hard fork on March 20, 2020?
         </>
       ),
       answers: [
@@ -311,7 +307,7 @@ export const survey: Survey = {
     },
     {
       type: "multiple_choice_with_input", // 12
-      text: "You answered yes to decreased cooperation. What do you believe are the primary reasons for this decrease? (Select all that apply)",
+      text: "You answered yes to the previous question. In your opinion, what are the reasons for the decrease in cooperation after Tron's takeover on February 14, 2020? (Select all that apply.)",
       answers: [
         {
           text: "A. This takeover led to increased disagreement and conflicts among Steem members",
