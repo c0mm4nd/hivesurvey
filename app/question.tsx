@@ -216,8 +216,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 setInputValue("");
               }
 
-              setAnswer(selected);
-              console.log(selected);
+              const newAnswer = { ...answer, ...selected };
+              setAnswer(newAnswer);
+              console.log(newAnswer);
 
               if (setRestrict) setRestrict(true);
             }}
@@ -256,7 +257,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                       let selected = { ...answer };
                       if (val.target.value.length > 0) {
                         selected["input"] = val.target.value;
-  
+
                         console.log("update goto when input:", v.goto);
                         props.setNext(v.goto);
                         setPrivateNext(v.goto);
@@ -292,13 +293,13 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               // const answerElem = question.answers[value]
               // console.log(answerElem)
 
-              let answer: string[];
+              let answer = {};
               let enableInput = false;
               // console.log(value)
               if (answerElem) {
                 if (answerElem.input) {
                   // when require input
-                  answer = [answerElem.text, inputValue]; // inputRef.current;
+                  answer = { text: answerElem.text, input: inputValue }; // inputRef.current;
                   enableInput = true;
                   // if (inputRef.current.length > 0) {
                   // if (inputValue.length > 0) {
@@ -308,7 +309,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                   setPrivateNext(0);
                   // }
                 } else {
-                  answer = [answerElem.text];
+                  answer = { text: answerElem.text };
                   props.setNext(answerElem.goto);
                   setPrivateNext(answerElem.goto);
                 }
