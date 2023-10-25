@@ -74,43 +74,101 @@ function Topbar(props: unknown, ref: Ref<any>) {
 
   let keychainLogin = useCallback(async (username: string, data: string) => {
     console.log("window", window);
-    let keychain = new KeychainSDK(window);
-    console.log("keychain", keychain);
 
-    const formParamsAsObject = {
-      data: {
-        username: username,
-        message: data,
-        method: KeychainKeyTypes.active,
-        title: "Login",
-      },
-    };
-    console.log("formParamsAsObject", formParamsAsObject);
-    const login = await keychain
-      .login(formParamsAsObject.data as Login)
-      .catch((e) => {
+    if (preferSteemit) {
+      // steem style
+      window.steem_keychain.requestVerifyKey(
+        username,
+        data,
+        "Active",
+        function (login) {
+          console.log(login);
+          //   {
+          //     "success": false,
+          //     "error": "incomplete",
+          //     "result": null,
+          //     "message": "Incomplete data or wrong format",
+          //     "data": {
+          //         "request_id": 1,
+          //         "type": "decode",
+          //         "username": "123",
+          //         "message": "hivesurvey login",
+          //         "method": "Active"
+          //     },
+          //     "request_id": 1
+          // }
+          if (login.success == true) {
+            // sig = login.result, pubkey = login.publickey
+            setUser({
+              name: login.data.username,
+              active: login.publicKey,
+              signature: login.result,
+              network: preferSteemit ? "steemit" : "hive",
+            });
+          } else {
+            toast({
+              title: "Login failed",
+              description: JSON.stringify(login),
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+
+          console.log("login", login);
+
+          onModalClose();
+        }
+      );
+    } else {
+      // hive style
+      let keychain = new KeychainSDK(window);
+      console.log("keychain", keychain);
+
+      const formParamsAsObject = {
+        data: {
+          username: username,
+          message: data,
+          method: KeychainKeyTypes.active,
+          title: "Login",
+        },
+      };
+      console.log("formParamsAsObject", formParamsAsObject);
+
+      const login = await keychain
+        .login(formParamsAsObject.data as Login)
+        .catch((e) => {
+          toast({
+            title: "Login failed",
+            description: JSON.stringify(e),
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        });
+      console.log("login", login);
+
+      if (login.success == true) {
+        // sig = login.result, pubkey = login.publickey
+        setUser({
+          name: login.data.username,
+          active: login.publicKey,
+          signature: login.result,
+          network: preferSteemit ? "steemit" : "hive",
+        });
+      } else {
         toast({
           title: "Login failed",
-          description: JSON.stringify(e),
+          description: JSON.stringify(login),
           status: "error",
           duration: 9000,
           isClosable: true,
         });
-      });
-    console.log("login", login);
+      }
+      console.log("login", login);
 
-    if (login.success == true) {
-      // sig = login.result, pubkey = login.publickey
-      setUser({
-        name: login.data.username,
-        active: login.publicKey,
-        signature: login.result,
-        network: preferSteemit ? "steemit" : "hive",
-      });
+      onModalClose();
     }
-    console.log("login", login);
-
-    onModalClose();
   }, []);
 
   const [inputUsername, setInputUsername] = useState<string>("");
