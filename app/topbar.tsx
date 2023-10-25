@@ -77,7 +77,9 @@ function Topbar(props: unknown, ref: Ref<any>) {
 
     if (preferSteemit) {
       // steem style
-      window.steem_keychain.requestVerifyKey(
+      console.log(username, data)
+
+      window.steem_keychain.requestSignBuffer(
         username,
         data,
         "Active",
@@ -304,8 +306,9 @@ function Topbar(props: unknown, ref: Ref<any>) {
               <Switch
                 id="network"
                 isChecked={preferSteemit}
-                onChange={() => {
-                  setPreferSteemit(!preferSteemit);
+                onChange={(event) => {
+                  console.log("network set to ", event.target.checked)
+                  setPreferSteemit(event.target.checked);
                 }}
               />
             </FormControl>
