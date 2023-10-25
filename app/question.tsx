@@ -106,20 +106,23 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
         const checkOpts = Object.entries(question.answers || []).map(
           ([k, v]) => {
             if (v.input) {
-              const [checked, setChecked] = useState(false);
+              const [checkChecked, setCheckChecked] = useState(false);
               return (
                 <>
                   <Checkbox
                     key={`${k}_${v.text}`}
-                    isChecked={checked}
+                    isChecked={checkChecked}
                     value={v.text}
+                    onChange={(event) => {
+                      setCheckChecked(event.target.checked);
+                    }}
                   >
                     {v.text}
                   </Checkbox>
                   <Input
                     type="text"
                     value={inputValue}
-                    disabled={!checked}
+                    disabled={!checkChecked}
                     placeholder={inputPlaceholder}
                     onChange={(val) => {
                       setInputValue(val.target.value);
@@ -223,20 +226,23 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
         const radioOpts = Object.entries(question.answers || []).map(
           ([k, v]) => {
             if (v.input) {
-              const [checked, setChecked] = useState(false);
+              const [radioChecked, setRadioChecked] = useState(false);
               return (
                 <>
                   <Radio
                     key={`${k}_${v.text}`}
-                    isChecked={checked}
+                    isChecked={radioChecked}
                     value={v.text}
+                    onChange={(event) => {
+                      setRadioChecked(event.target.checked);
+                    }}
                   >
                     {v.text}
                   </Radio>
                   <Input
                     type="text"
                     value={inputValue}
-                    disabled={!checked}
+                    disabled={!radioChecked}
                     placeholder={inputPlaceholder}
                     onChange={(val) => {
                       setInputValue(val.target.value);
