@@ -8,6 +8,7 @@ export interface User {
   name: string,
   active: string, // active key
   signature: string,
+  network: "steemit" | "hive"
 }
 
 export const UserContext = createContext<{
