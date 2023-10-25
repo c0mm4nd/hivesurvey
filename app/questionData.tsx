@@ -333,7 +333,7 @@ export const survey: Survey = {
       text: "Have you ever bought votes from others or from bots to earn STEEM/STEEM POWER as rewards?",
       answers: [
         { text: "Yes", goto: 14 },
-        { text: "No", goto: 15 },
+        { text: "No", goto: 14 },
       ],
     },
     {
