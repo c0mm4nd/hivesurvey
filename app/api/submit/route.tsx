@@ -203,21 +203,28 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  await kv.set(name, { time: Date.now(), data: data });
-
+  let txId = null;
   if (network == "hive") {
     console.log("sending hive")
     const res = await sendHIVEReward(name);
     console.log("result", res)
-    return NextResponse.json({ result: { txid: res.txId } });
+    
+    txId = res.txId
   }
   if (network == "steemit") {
     console.log("sending steem")
     const res = await sendSteemitReward(name);
     console.log("result", res)
-    return NextResponse.json({ result: { txid: res.txId } });
+
+    txId = res.txId
   }
 
+  await kv.set(name, { time: Date.now(), data: data });
+
   // const res = await sendHIVEReward(name)
-  return NextResponse.json({ result: { txid: null } });
+  if (txId) {
+    return NextResponse.json({ result: { txId: txId } });
+  } else {
+    return NextResponse.json({ result: { txid: null } });
+  }
 }
