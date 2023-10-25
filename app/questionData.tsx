@@ -332,12 +332,35 @@ export const survey: Survey = {
       type: "single_choice", // 13
       text: "Have you ever bought votes from others or from bots to earn STEEM/STEEM POWER as rewards?",
       answers: [
-        { text: "Yes", goto: 14 },
+        { text: "Yes", goto: 15 },
         { text: "No", goto: 14 },
       ],
     },
     {
-      type: "single_choice", // 14
+      type: "single_choice_with_input", // 14
+      text: "If you have NOT purchased votes from others, please select the most applicable reason below:",
+      answers: [
+        {
+          text: "A. You were unaware of the opportunity for vote purchasing/You are unsure where to purchase votes.",
+          goto: 15,
+        },
+        {
+          text: "B. You believe that vote purchasing would have a detrimental impact on the Steem community.",
+          goto: 16,
+        },
+        {
+          text: "C. You consider vote purchasing to earn token rewards a form of “cheating.”",
+          goto: 16,
+        },
+        {
+          text: "D. You are concerned that your friends within the Steem community might become aware of your actions if you were to purchase votes.",
+          goto: 16,
+        },
+        { text: "E. Other (please specify): ", input: true, goto: 16 },
+      ],
+    },
+    {
+      type: "single_choice", // 15
       text: "How do you expect the value of STEEM over the next 5 years just after Tron's takeover on February 14, 2020?",
       range: [1, 5],
       answers: [
@@ -361,29 +384,6 @@ export const survey: Survey = {
           text: "5 = Very Optimistic (I believe STEEM will significantly increase in value)",
           goto: 16,
         },
-      ],
-    },
-    {
-      type: "single_choice_with_input", // 15
-      text: "If you have NOT purchased votes from others, please select the most applicable reason below:",
-      answers: [
-        {
-          text: "A. You were unaware of the opportunity for vote purchasing/You are unsure where to purchase votes.",
-          goto: 16,
-        },
-        {
-          text: "B. You believe that vote purchasing would have a detrimental impact on the Steem community.",
-          goto: 16,
-        },
-        {
-          text: "C. You consider vote purchasing to earn token rewards a form of “cheating.”",
-          goto: 16,
-        },
-        {
-          text: "D. You are concerned that your friends within the Steem community might become aware of your actions if you were to purchase votes.",
-          goto: 16,
-        },
-        { text: "E. Other (please specify): ", input: true, goto: 16 },
       ],
     },
     {
