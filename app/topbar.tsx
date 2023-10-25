@@ -77,108 +77,107 @@ function Topbar(props: unknown, ref: Ref<any>) {
     if (preferSteemit) {
       // steem style
       try {
-        console.log(username, data)
+        console.log(username, data);
+        if (window.steem_keychain) {
+          window.steem_keychain.requestSignBuffer(
+            username,
+            data,
+            "Active",
+            function (login) {
+              console.log(login);
+              //   {
+              //     "success": false,
+              //     "error": "incomplete",
+              //     "result": null,
+              //     "message": "Incomplete data or wrong format",
+              //     "data": {
+              //         "request_id": 1,
+              //         "type": "decode",
+              //         "username": "123",
+              //         "message": "hivesurvey login",
+              //         "method": "Active"
+              //     },
+              //     "request_id": 1
+              // }
+              if (login.success == true) {
+                // sig = login.result, pubkey = login.publickey
+                setUser({
+                  name: login.data.username,
+                  active: login.publicKey,
+                  signature: login.result,
+                  network: preferSteemit ? "steemit" : "hive",
+                });
+              } else {
+                toast({
+                  title: "Login failed",
+                  description: JSON.stringify(login),
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                });
+              }
 
-        window.steem_keychain.requestSignBuffer(
-          username,
-          data,
-          "Active",
-          function (login) {
-            console.log(login);
-            //   {
-            //     "success": false,
-            //     "error": "incomplete",
-            //     "result": null,
-            //     "message": "Incomplete data or wrong format",
-            //     "data": {
-            //         "request_id": 1,
-            //         "type": "decode",
-            //         "username": "123",
-            //         "message": "hivesurvey login",
-            //         "method": "Active"
-            //     },
-            //     "request_id": 1
-            // }
-            if (login.success == true) {
-              // sig = login.result, pubkey = login.publickey
-              setUser({
-                name: login.data.username,
-                active: login.publicKey,
-                signature: login.result,
-                network: preferSteemit ? "steemit" : "hive",
-              });
-            } else {
-              toast({
-                title: "Login failed",
-                description: JSON.stringify(login),
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-              });
+              console.log("login", login);
+
+              onModalClose();
             }
-  
-            console.log("login", login);
-  
-            onModalClose();
-          }
-        );
+          );
+        }
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-
     } else {
       // hive style
       try {
-        console.log(username, data)
+        console.log(username, data);
+        if (window.hive_keychain) {
+          window.hive_keychain.requestSignBuffer(
+            username,
+            data,
+            "Active",
+            function (login) {
+              console.log(login);
+              //   {
+              //     "success": false,
+              //     "error": "incomplete",
+              //     "result": null,
+              //     "message": "Incomplete data or wrong format",
+              //     "data": {
+              //         "request_id": 1,
+              //         "type": "decode",
+              //         "username": "123",
+              //         "message": "hivesurvey login",
+              //         "method": "Active"
+              //     },
+              //     "request_id": 1
+              // }
+              if (login.success == true) {
+                // sig = login.result, pubkey = login.publickey
+                setUser({
+                  name: login.data.username,
+                  active: login.publicKey,
+                  signature: login.result,
+                  network: preferSteemit ? "steemit" : "hive",
+                });
+              } else {
+                toast({
+                  title: "Login failed",
+                  description: JSON.stringify(login),
+                  status: "error",
+                  duration: 9000,
+                  isClosable: true,
+                });
+              }
 
-        window.hive_keychain.requestSignBuffer(
-          username,
-          data,
-          "Active",
-          function (login) {
-            console.log(login);
-            //   {
-            //     "success": false,
-            //     "error": "incomplete",
-            //     "result": null,
-            //     "message": "Incomplete data or wrong format",
-            //     "data": {
-            //         "request_id": 1,
-            //         "type": "decode",
-            //         "username": "123",
-            //         "message": "hivesurvey login",
-            //         "method": "Active"
-            //     },
-            //     "request_id": 1
-            // }
-            if (login.success == true) {
-              // sig = login.result, pubkey = login.publickey
-              setUser({
-                name: login.data.username,
-                active: login.publicKey,
-                signature: login.result,
-                network: preferSteemit ? "steemit" : "hive",
-              });
-            } else {
-              toast({
-                title: "Login failed",
-                description: JSON.stringify(login),
-                status: "error",
-                duration: 9000,
-                isClosable: true,
-              });
+              console.log("login", login);
+
+              onModalClose();
             }
-  
-            console.log("login", login);
-  
-            onModalClose();
-          }
-        );
+          );
+        }
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-
-
     }
   }, []);
 
@@ -316,7 +315,7 @@ function Topbar(props: unknown, ref: Ref<any>) {
                 id="network"
                 isChecked={preferSteemit}
                 onChange={(event) => {
-                  console.log("network set to ", event.target.checked)
+                  console.log("network set to ", event.target.checked);
                   setPreferSteemit(event.target.checked);
                 }}
               />
