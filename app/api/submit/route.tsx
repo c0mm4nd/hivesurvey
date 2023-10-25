@@ -206,11 +206,15 @@ export async function POST(request: NextRequest) {
   await kv.set(name, { time: Date.now(), data: data });
 
   if (network == "hive") {
+    console.log("sending hive")
     const res = await sendHIVEReward(name);
+    console.log("result", res)
     return NextResponse.json({ result: { txid: res.txId } });
   }
   if (network == "steemit") {
+    console.log("sending steem")
     const res = await sendSteemitReward(name);
+    console.log("result", res)
     return NextResponse.json({ result: { txid: res.txId } });
   }
 
