@@ -179,7 +179,7 @@ function Topbar(props: unknown, ref: Ref<any>) {
         console.log(e);
       }
     }
-  }, []);
+  }, [preferSteemit]);
 
   const [inputUsername, setInputUsername] = useState<string>("");
   const {
