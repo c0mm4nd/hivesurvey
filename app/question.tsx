@@ -130,14 +130,19 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
 
                       let selected = { ...answer };
                       if (val.target.value.length > 0) {
-                        selected.push(val.target.value);
+                        selected["input"] = val.target.value;
+
+                        console.log("update goto when input:", v.goto);
+                        props.setNext(v.goto);
+                        setPrivateNext(v.goto);
+                      } else {
+                        console.log("update goto when input:", 0);
+                        props.setNext(0);
+                        setPrivateNext(0);
                       }
 
                       setAnswer(selected);
                       console.log(selected);
-
-                      props.setNext(v.goto);
-                      setPrivateNext(v.goto);
                     }}
                   />
                 </>
@@ -250,14 +255,19 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
 
                       let selected = { ...answer };
                       if (val.target.value.length > 0) {
-                        selected.push(val.target.value);
+                        selected["input"] = val.target.value;
+  
+                        console.log("update goto when input:", v.goto);
+                        props.setNext(v.goto);
+                        setPrivateNext(v.goto);
+                      } else {
+                        console.log("update goto when input:", 0);
+                        props.setNext(0);
+                        setPrivateNext(0);
                       }
 
                       setAnswer(selected);
                       console.log(selected);
-
-                      props.setNext(v.goto);
-                      setPrivateNext(v.goto);
                     }}
                   />
                 </>

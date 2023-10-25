@@ -381,13 +381,13 @@ export const survey: Survey = {
         },
         {
           text: "D. You are concerned that your friends within the Steem community might become aware of your actions if you were to purchase votes.",
-          goto: 17,
+          goto: 16,
         },
         { text: "E. Other (please specify): ", input: true, goto: 16 },
       ],
     },
     {
-      type: "compound",
+      type: "compound", // 16
       text: "",
       answers: [{ text: "", goto: 17 }],
       subQuestions: {
