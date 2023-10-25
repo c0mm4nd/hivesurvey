@@ -173,7 +173,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 return;
               }
 
-              let selected = [] as any[];
+              let selected = {};
 
               let enableInput = false;
 
@@ -199,7 +199,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                     props.setNext(0); // disbale next when no input
                     setPrivateNext(0);
                   } else {
-                    selected.push(answerElem.text);
+                    selected[answerElem.text] = true;
                     props.setNext(answerElem.goto);
                     setPrivateNext(answerElem.goto);
                   }
