@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import hiveTx, {
+import {
+  config,
   Transaction,
   PrivateKey,
   PublicKey,
   call,
   Signature,
 } from "hive-tx";
+import * as hiveTx from "hive-tx";
 import { kv } from "@vercel/kv";
 import { sha256 } from "@noble/hashes/sha256";
 import { User } from "@/app/providers";
