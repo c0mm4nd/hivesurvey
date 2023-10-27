@@ -346,17 +346,17 @@ export const survey: Survey = {
         },
         {
           text: "B. You believe that vote purchasing would have a detrimental impact on the Steem community.",
-          goto: 16,
+          goto: 15,
         },
         {
           text: "C. You consider vote purchasing to earn token rewards a form of “cheating.”",
-          goto: 16,
+          goto: 15,
         },
         {
           text: "D. You are concerned that your friends within the Steem community might become aware of your actions if you were to purchase votes.",
-          goto: 16,
+          goto: 15,
         },
-        { text: "E. Other (please specify): ", input: true, goto: 16 },
+        { text: "E. Other (please specify): ", input: true, goto: 15 },
       ],
     },
     {
