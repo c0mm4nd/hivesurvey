@@ -38,10 +38,19 @@ async function sendHIVEReward(to) {
 
   tx.sign(privateKey);
 
-  const res = await tx.broadcast();
-  if ("error" in res) {
-    throw res["error"];
+  try {
+    for (;;) {
+      const res = await tx.broadcast();
+      if ("error" in res) {
+        throw res["error"];
+      }
+      break;
+    }
+  } catch (e) {
+    // console.error(e);
+    throw e;
   }
+
 
   const digest = tx.digest();
 
@@ -83,7 +92,7 @@ async function sendSteemitReward(to) {
   return digest;
 }
 
-import targets from "./temp.json" assert { type: "json" };
+import targets from "./unique_items.json" assert { type: "json" };
 
 // (async () => {
 try {
@@ -94,7 +103,7 @@ try {
     for (;;) {
       try {
         let result = await sendHIVEReward(addr);
-        console.log(result)
+        console.log(addr, result)
         break
       } catch (e) {
         console.error(e);
