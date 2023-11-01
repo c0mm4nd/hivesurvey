@@ -27,6 +27,7 @@ import {
   Tooltip,
   useToast,
 } from "@chakra-ui/react";
+import ReactDOMServer from 'react-dom/server'
 import { Question, QuestionType, SurveyQuestion } from "./questionData";
 import { FormValues } from "./form";
 import React, {
@@ -325,7 +326,7 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                 }
 
                 setAnswer(answer);
-                console.log(answer);
+                console.log("answer", answer);
 
                 if (setRestrict) setRestrict(true);
               }
@@ -344,6 +345,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               // console.log(event)
               if (event.target.value) {
                 setAnswer(event.target.value);
+                console.log("answer", event.target.value);
+
                 props.setNext(question.answers[0].goto);
                 setPrivateNext(question.answers[0].goto);
               }
@@ -410,6 +413,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               }
 
               setAnswer(valueAsNumber);
+              console.log("answer", valueAsNumber);
+
               props.setNext(question.answers[0].goto);
               setPrivateNext(question.answers[0].goto);
               // }
@@ -443,6 +448,8 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
               });
               if (answerElem) {
                 setAnswer(answerElem.text);
+                console.log("answer", answerElem.text);
+
                 props.setNext(question.answers[0].goto || 0);
                 setPrivateNext(question.answers[0].goto || 0);
               }
@@ -494,9 +501,11 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 console.log(answerElem);
                                 if (answerElem) {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text.toString()] =
+                                  newAnswer[ReactDOMServer.renderToString(q.text)] =
                                     answerElem.text;
                                   setAnswer(newAnswer);
+                                  console.log("answer", newAnswer);
+
                                   doneRef.current[
                                     index.toString() + i.toString()
                                   ] = true;
@@ -512,8 +521,10 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                   if (setRestrict) setRestrict(true);
                                 } else {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text.toString()] = null;
+                                  newAnswer[ReactDOMServer.renderToString(q.text)] = null;
                                   setAnswer(newAnswer);
+                                  console.log("answer", newAnswer);
+
                                   props.setNext(0);
                                   setPrivateNext(0);
                                   if (setRestrict) setRestrict(false);
@@ -541,9 +552,10 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 // console.log(event)
                                 if (event.target.value) {
                                   let newAnswer = answer ?? {};
-                                  newAnswer[q.text.toString()] =
+                                  newAnswer[ReactDOMServer.renderToString(q.text)] =
                                     event.target.value;
                                   setAnswer(newAnswer);
+                                  console.log("answer", newAnswer);
 
                                   doneRef.current[
                                     index.toString() + i.toString()
@@ -602,8 +614,9 @@ export function QuestionCard(props: QuestionCardProps, ref: Ref<any>) {
                                 }
 
                                 let newAnswer = answer ?? {};
-                                newAnswer[q.text.toString()] = valueAsNumber;
+                                newAnswer[ReactDOMServer.renderToString(q.text)] = valueAsNumber;
                                 setAnswer(newAnswer);
+                                console.log("answer", newAnswer);
 
                                 doneRef.current[
                                   index.toString() + i.toString()

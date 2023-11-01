@@ -49,7 +49,7 @@ export interface SurveyQuestion {
 
 export interface SubQuestion {
   type: "text" | "single_choice" | "number";
-  text: string | ReactElement;
+  text: ReactElement;
   answers?: SubAnswer[];
 }
 
