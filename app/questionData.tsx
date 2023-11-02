@@ -205,7 +205,7 @@ export const survey: Survey = {
             type: "number",
             text: (
               <>
-                (a) Please provide an estimate of the number of people out of
+                (c) Please provide an estimate of the number of people out of
                 100 who you think would AGREE with this statement
                 <b> before Tron's takeover</b>:
               </>
@@ -215,7 +215,7 @@ export const survey: Survey = {
             type: "number",
             text: (
               <>
-                (b) Please provide an estimate of the number of people out of
+                (d) Please provide an estimate of the number of people out of
                 100 who you think would AGREE with this statement
                 <b> after Tron's takeover</b>:
               </>
@@ -269,7 +269,7 @@ export const survey: Survey = {
               type: "number",
               text: (
                 <>
-                  (a) Please provide an estimate of the number of people out of
+                  (c) Please provide an estimate of the number of people out of
                   100 <b> before Tron's takeover</b>:
                 </>
               ),
@@ -278,7 +278,7 @@ export const survey: Survey = {
               type: "number",
               text: (
                 <>
-                  (b) Please provide an estimate of the number of people out of
+                  (d) Please provide an estimate of the number of people out of
                   100 <b> after Tron's takeover</b>:
                 </>
               ),
