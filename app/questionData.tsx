@@ -65,12 +65,28 @@ export interface SurveyAnswer {
 
 export const survey: Survey = {
   questions: [
+    // {
+    //   type: "single_choice", // 0
+    //   text: "Are you a user registered on the Steem blockchain on or before February 14, 2020?",
+    //   answers: [
+    //     { text: "Yes", goto: 1 },
+    //     { text: "No (If 'No', this marks the end of the survey.)", goto: -1 },
+    //   ],
+    // },
+    // {
+    //   type: "single_choice", // 1
+    //   text: "Between February 14, 2020, when Tron's takeover of Steemit, Inc. was announced, and March 20, 2020, when the community initiated the hard fork, did you remain active in the Steem community by engaging in at least one of the following activities: posting articles, making comments, powering up/down, or voting?",
+    //   answers: [
+    //     { text: "Yes", goto: 2 },
+    //     { text: "No (If 'No', this marks the end of the survey.)", goto: -1 },
+    //   ],
+    // },
     {
       type: "single_choice", // 0
       text: "Are you a user registered on the Steem blockchain on or before February 14, 2020?",
       answers: [
         { text: "Yes", goto: 1 },
-        { text: "No (If 'No', this marks the end of the survey.)", goto: -1 },
+        { text: "No", goto: 1 },
       ],
     },
     {
@@ -78,7 +94,7 @@ export const survey: Survey = {
       text: "Between February 14, 2020, when Tron's takeover of Steemit, Inc. was announced, and March 20, 2020, when the community initiated the hard fork, did you remain active in the Steem community by engaging in at least one of the following activities: posting articles, making comments, powering up/down, or voting?",
       answers: [
         { text: "Yes", goto: 2 },
-        { text: "No (If 'No', this marks the end of the survey.)", goto: -1 },
+        { text: "No", goto: 2 },
       ],
     },
     {
