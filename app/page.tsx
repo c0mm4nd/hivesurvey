@@ -29,7 +29,8 @@ export default function Home() {
           <ModalHeader>Introduction</ModalHeader>
 
           <ModalBody>
-            We are inviting current Steem/Hive members who{" "}
+            We are inviting current Steem/Hive members 
+            {/* who{" "}
             <b>
               1) registered before February 14, 2020; 2) engaged in at least one
               of the following activities from February 14 to March 20: posting
@@ -40,7 +41,7 @@ export default function Home() {
             <span style={{ color: "red" }}>
               (Please withdraw from the questionnaire if you do not meet the
               above three criteria)
-            </span>
+            </span> */}
             . This invitation is to participate in a research study by Sichen
             Dong from the Faculty of Business and Economics at the University of
             Hong Kong.
