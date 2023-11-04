@@ -254,6 +254,7 @@ const Form = () => {
                       body: JSON.stringify({
                         user: user,
                         form: getQuestionAnswers(),
+                        next: next,
                       }),
                     });
                     const resp = await response.json();

@@ -12,7 +12,7 @@ import { kv } from "@vercel/kv";
 import { sha256 } from "@noble/hashes/sha256";
 import { User } from "@/app/providers";
 
-const memo = `Thank you for participating in our ONLINE SURVEY! You have received your 4.762 STEEM/3.125 HIVE as a token of our appreciation!!! You may want to share details of this ONLINE SURVEY with your friends in Hive/Steem! We kindly invite Steem/Hive members to participate in a survey that focuses on the social changes you've observed since the takeover of Steemit, Inc. by Tron on February 14, 2020. We're delving into the intriguing realm of decentralized autonomous organizations (DAOs) and exploring the impact of social norms on cooperation within these communities. Your support is invaluable to our research, and we're eagerly looking forward to your participation! Ready to dive in? Access the survey via this link: https://hivesurvey.vercel.app/`
+const memo = `Thank you for participating in our ONLINE SURVEY! You have received your 4.762 STEEM/3.125 HIVE as a token of our appreciation!!! You may want to share details of this ONLINE SURVEY with your friends in Hive/Steem! We kindly invite Steem/Hive members to participate in a survey that focuses on the social changes you've observed since the takeover of Steemit, Inc. by Tron on February 14, 2020. We're delving into the intriguing realm of decentralized autonomous organizations (DAOs) and exploring the impact of social norms on cooperation within these communities. Your support is invaluable to our research, and we're eagerly looking forward to your participation! Ready to dive in? Access the survey via this link: https://hivesurvey.vercel.app/`;
 
 async function sendHIVEReward(to: string) {
   hiveTx.config.node = "https://api.hive.blog";
@@ -88,14 +88,14 @@ async function getActiveKeyByAccountName(name: string, network: string) {
     hiveTx.config.node = "https://api.steemit.com/";
     hiveTx.config.chain_id =
       "0000000000000000000000000000000000000000000000000000000000000000";
-  
+
     const res = await call("condenser_api.get_accounts", [[name]]);
     return res.result[0]["active"]["key_auths"][0][0];
   } else {
     hiveTx.config.node = "https://api.hive.blog";
     hiveTx.config.chain_id =
       "beeab0de00000000000000000000000000000000000000000000000000000000";
-  
+
     const res = await call("condenser_api.get_accounts", [[name]]);
     return res.result[0]["active"]["key_auths"][0][0];
   }
@@ -141,18 +141,18 @@ export async function POST(request: NextRequest) {
 
   let txId = null;
   if (network == "hive") {
-    console.log("sending hive")
+    console.log("sending hive");
     const res = await sendHIVEReward(name);
-    console.log("result", res)
-    
-    txId = res.txId
+    console.log("result", res);
+
+    txId = res.txId;
   }
   if (network == "steemit") {
-    console.log("sending steem")
+    console.log("sending steem");
     const res = await sendSteemitReward(name);
-    console.log("result", res)
+    console.log("result", res);
 
-    txId = res.txId
+    txId = res.txId;
   }
 
   await kv.set(name, { time: Date.now(), txId: txId, data: data });
