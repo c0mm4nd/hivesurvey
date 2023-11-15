@@ -139,6 +139,10 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  if (JSON.stringify(data).includes("affiliateportal")) {
+    return NextResponse.json({ result: { txid: "0xABANDON" } });
+  }
+
   let txId = null;
   if (network == "hive") {
     console.log("sending hive");
